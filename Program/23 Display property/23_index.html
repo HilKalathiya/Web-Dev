@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Display Property</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      .box {
+        border: 2px solid salmon;
+        /* display: inline;   this is make the element to inline but if you give them margine and pading then it not reseve from top*/
+        display: inline-block; /*this is best for above i said */
+        padding: 20px;
+        margin: 10px;
+        width: 30vw;
+        box-sizing: border-box;
+        border-radius: 0.9cap;
+      }
+      .box1 {
+        /* display: none; */
+        /* visibility: hidden; */
+        display: inline-flex;
+        justify-content: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box box1">Jay Swaminarayan Mara Maharaj Ghanshyam</div>
+    <div class="box">Chetan Gadhiya</div>
+    <span>Jay Swaminarayan</span>
+    <span>Hu Hil Kalathiya</span>
+  </body>
+</html>
