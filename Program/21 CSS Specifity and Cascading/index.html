@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS Specificity</title>
+    <style>
+       
+        .green{
+            background-color: aqua;
+        }
+        .Cred{
+            background-color: rgb(190, 143, 233);
+        }
+        .ghanu{
+            background-color: rgb(6, 249, 156);
+        }
+         p{
+            background-color: rgb(251, 223, 186);
+            color: rgb(19, 0, 143) ;
+        }
+        /* specificity is 1 + 10 = 11 */
+        p.ghanu{
+
+            color: antiquewhite;
+            background-color: #ed6b6b;
+        }
+        
+    </style>
+  </head>
+  <body>
+    <p class="ghanu green Cred">
+      Mara Vala Maharaj Jago Ghanu Rondhu Thai gayu che Maharaj Vala jago Maharaj Ne Modhu Dhovdavu Maharaj ne Kogla
+      Karavu Vala ne Fari thi thaiyar karu Mast maja na Vagha paheravu Ghanu ne Vadapaw nasta ma jamadu hi maharaj ne
+      soda pivravu ane chalu karavi ghanu have tame mari sathe rahejo
+    </p>
+  </body>
+</html>

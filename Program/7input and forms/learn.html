@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Learning Again</title>
+</head>
+<body>
+    <h1>Student Information</h1>
+
+    <form action="post">
+        <div>
+            <label for="username">Student Name-</label>
+            <input type="text" id="username" name="full_name" placeholder="Enter your full name">
+        </div>
+        <div>
+            <label for="">Citizenship-</label>
+            <input type="radio" name="Citizen" id="indian" value="Indian">
+            <label for="indian">Indian</label>
+            <input type="radio" name="Citizen" id="nri" value=nri">
+            <label for="nri">NRI</label>
+        </div>
+        <div>
+            <label for="college">Select College-</label>
+            <select name="College" id="college">
+                <option value="select" default>Select</option>
+                <option value="1">PDEU</option>
+                <option value="2">DAIICT</option>
+                <option value="3">Nirma</option>
+                <option value="4">Changa</option>
+                <option value="5">Bhagvan Mahavir</option>
+            </select>
+        </div>
+        <div>
+            <label for="year">Passing Year-</label>
+            <select name="Passing_year" id="year">
+                <option value="select" default>Select</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+                <option value="2026">2026</option>
+                <option value="2027">2027</option>
+                <option value="2028">2028</option>
+            </select>
+        </div>
+        <div>
+            <label for="branch">Enter your Branch Name-</label>
+            <input type="text" name="branch_name" id="branch" placeholder="Enter full name">
+        </div>
+        <div>
+            <label for="number">Enter your Enrollment Number-</label>
+            <input type="text" name="roll_no" id="number" placeholder="Roll No">
+        </div>
+        <div>
+            <label for="mail">Enter your College Email ID-</label>
+            <input type="text" name="email" id="mail" placeholder="Email ID">
+        </div>
+        <div>
+            <label for="password">Enter your Email ID Password-</label>
+            <input type="password" name="id_password" id="password">
+        </div>
+        <div>
+            <label for="exp">Enter Your experiance of College</label>
+            <br>
+            <textarea name="experiance" id="exp" cols="40" rows="5"></textarea>
+        </div>
+        <div>
+            <input type="submit" value="Submit">
+        </div>
+
+    </form>
+    
+</body>
+</html>

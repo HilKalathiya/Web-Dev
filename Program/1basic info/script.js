@@ -1,0 +1,1 @@
+alert("Mare Mara Santo Ane Maharaj Ne raji Karva Che ")
