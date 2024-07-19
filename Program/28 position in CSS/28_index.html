@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Positions in CSS</title>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+      }
+
+      .box {
+        font-family: "Poppins";
+        font-weight: 400;
+        font-style: normal;
+        border: 2px solid #442a2f;
+        border-radius: 0.8ch;
+        color: rgb(219, 146, 157);
+        margin: 19px auto;
+        padding: 3px 2px;
+        /* list-style: devanagari; */
+        background-color: #5f4147;
+        width: 60vw;
+        height: 30vh;
+        text-align: center;
+         box-shadow: 3px 4px 9px 2px rgb(66, 57, 57) ;
+      }
+      .box:hover {
+        box-shadow: 3px 4px 9px 2px rgb(66, 57, 57) inset;
+      }
+      .box1 {
+        position: relative;
+        left: -292px;
+        z-index:1;
+      }
+      .box2 {
+        position: relative;
+        left: -260px;
+        top: -80px;
+        z-index:2;
+      }
+      .box3 {
+        position: relative;
+        left: -228px;
+        top: -160px;
+        z-index:3;
+      }
+      .box4 {
+        position: relative;
+        left: -196px;
+        top: -240px;
+        z-index:4;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box1 box">Jay Swaminarayan Ghanshyam Maharaj</div>
+    <div class="box2 box">Lorem ipsum dolor sit amet consectetur adipisicing elit.</div>
+    <div class="box3 box">Minus voluptatem expedita totam!</div>
+    <div class="box4 box">Lorem ipsum dolor sit amet.</div>
+  </body>
+</html>
