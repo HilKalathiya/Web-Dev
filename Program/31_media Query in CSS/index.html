@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS Media Query</title>
+    <style>
+      body {
+        background-color: aqua;
+      }
+      .box{
+        width: 400px;
+        height: 400px;
+        background-color: rgb(204, 227, 158);
+        margin: 10px;
+        display: inline-block;
+      }
+      .boxes{
+       
+        display: flex;
+       
+        
+      }
+      @media screen and (orientation: landscape) {
+        body{
+            border: 5px solid rgb(4, 102, 25);
+        }
+      }
+      @media only screen and (max-width: 500px) {
+        body{
+            background-color: rgb(73, 201, 88);
+        }
+        .boxes{
+            flex-direction: column;
+        }
+      }
+      /* @media not/only mediatype and (expressions)
+         CSS-code;*/
+    </style>
+  </head>
+  <body>
+    <div>hey i am aqua body guy</div>
+    <div class="boxes">
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+    </div>
+  </body>
+</html>

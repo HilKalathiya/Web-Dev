@@ -3,39 +3,44 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Style List Using CSS</title>
+    <title>CSS Variables</title>
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Slab:wght@100..900&family=Rubik:ital,wght@0,300..900;1,300..900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap");
       *{
-        background-color: #e3d7d8;
+        background-color: #d3f4d3;
       }
-      li:hover{
-        background-color: #442a2f;
-        color: rgb(240, 199, 199);
-        
+      :root{
+        --color: rgb(58, 108, 58);
+        --seccolor: rgb(146, 233, 107);
+        /* --defpad: 24px; */
       }
       li {
+        --color2: rgb(13, 85, 13);
+        --color3: rgb(196, 209, 196);
         font-family: "Poppins";
         font-weight: 450;
         font-style: normal;
-        border: 2px solid #442a2f;
+        border: 2px solid var(--color2);
         border-radius: 0.6ch;
-        color: rgb(206, 155, 163);
+        color: var(--color3,rgb(165, 207, 165));
         margin: 5px 16px;
-        padding: 3px 2px;
+        padding: var(--defpad,3px) 2px;
         list-style-type: "💣";
         /* list-style: devanagari; */
         list-style-position: inside;
-        background-color: #6b484f;
+        background-color: var(--color);
         width: 7.5vw;
         text-align: center;
-        box-shadow: 5px 4px 9px 0px rgb(115 66 71);
+        box-shadow: 5px 4px 9px 0px rgb(9, 71, 7);
         /* list-style-image: url(https://www.loomly.com/hs-fs/hubfs/Imported_Blog_Media/earth-Apr-03-2024-12-19-31-1897-AM.gif?width=540&height=540&name=earth-Apr-03-2024-12-19-31-1897-AM.gif); */
         /* max-height: 20px; */
       }
       .un {
         display: flex;
         margin: 0px -55px;
+      }
+      .cont{
+        background-color: var(--seccolor);
       }
     </style>
   </head>
@@ -48,5 +53,14 @@
         <li>Contact</li>
       </ul>
     </nav>
+    <main>
+      <div class="cont">
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Exercitationem doloribus ratione unde quaerat error
+        omnis qui temporibus, itaque impedit iste odio porro quis eaque cum sit vero quidem recusandae, nemo illum
+        nostrum. Inventore reprehenderit architecto quasi nam corporis deleniti repudiandae laudantium saepe eum
+        mollitia, quos minus magnam distinctio eius soluta blanditiis dignissimos rem necessitatibus eveniet accusamus
+        odio facere delectus totam corrupti. Excepturi dolore enim libero similique non!
+      </div>
+    </main>
   </body>
 </html>
