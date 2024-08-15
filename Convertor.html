@@ -1,0 +1,7583 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Converter</title>
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Rasa:ital,wght@0,300..700;1,300..700&display=swap");
+      * {
+        font-family: "Rasa", serif;
+        font-optical-sizing: auto;
+        font-style: normal;
+      }
+      .title {
+        font-family: "Rasa", serif;
+        font-optical-sizing: auto;
+        font-style: normal;
+        margin-bottom: 2rem;
+        font-size: 3rem;
+        line-height: 2.5rem;
+        font-weight: 700;
+        text-align: center;
+      }
+
+      .main_container {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 2rem;
+      }
+
+      .box {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-size: 1.875rem;
+        line-height: 2.25rem;
+        font-weight: 500;
+        color: #111827;
+      }
+
+      .text_Area {
+        padding: 0.5rem;
+        border-radius: 1.5rem;
+        border-width: 2px;
+        border-color: #d1d5db;
+        width: 100%;
+        height: 16rem;
+        font-size: 1.125rem;
+        line-height: 1.75rem;
+      }
+
+      .clickButton {
+        background-color: #0b57d0;
+        color: #ffffff;
+        display: block;
+        padding: 0.5rem;
+        border-radius: 9999px;
+        border-width: 2px;
+        border-color: #000000;
+        width: 100%;
+        height: 44px;
+        font-size: large;
+        font-weight: 500;
+        text-align: center;
+        cursor: pointer;
+      }
+
+      @media (min-width: 640px) {
+        .main {
+          padding-left: 0.75rem;
+          padding-right: 0.75rem;
+        }
+      }
+
+      @media (min-width: 1024px) {
+        .main {
+          padding-left: 1.5rem;
+          padding-right: 1.5rem;
+        }
+      }
+
+      @media (min-width: 1280px) {
+        .main {
+          margin-left: 5rem;
+          margin-right: 5rem;
+        }
+      }
+    </style>
+  </head>
+
+  <body style="background-color: #d0ff00; margin: 0; padding: 0">
+    <div class="main">
+      <h1 class="title">જય શ્રીસ્વામિનારાયણ</h1>
+      <div class="main_container">
+        <div class="box">
+          <div>
+            <label for="message" class="label">ગુજરાતી યુનિકોડ ટેક્સ્ટ</label>
+            <textarea
+              id="unicodeText"
+              class="text_Area"
+              spellcheck="false"
+            ></textarea>
+          </div>
+          <input
+            class="clickButton"
+            type="button"
+            accesskey="c"
+            title="Sulekh To English"
+            onClick="gujUnicodeButtonPress()"
+            value="Convert"
+          />
+        </div>
+        <div class="box">
+          <div>
+            <label for="message" class="label">સુલેખ ટેક્સ્ટ</label>
+            <textarea
+              id="sulekhText"
+              style="font-family: 'Guj_Regular_SULEKH'"
+              class="text_Area"
+              spellcheck="false"
+            ></textarea>
+          </div>
+          <input
+            class="clickButton"
+            type="button"
+            accesskey="c"
+            title="Unicode To English"
+            onClick="sulekhTextButtonPress()"
+            value="Convert"
+          />
+        </div>
+        <div class="box">
+          <div>
+            <label for="message" class="label">હિન્દી યુનિકોડ ટેક્સ્ટ</label>
+            <textarea
+              id="hindiUnicode"
+              class="text_Area"
+              spellcheck="false"
+            ></textarea>
+          </div>
+          <input
+            class="clickButton"
+            type="button"
+            accesskey="c"
+            title="Sulekh To English"
+            onClick="hindiUnicodeButtonPress()"
+            value="Convert"
+          />
+        </div>
+        <div class="box">
+          <div>
+            <label for="message" class="label">અંગ્રેજી ટેક્સ્ટ</label>
+            <textarea
+              id="englishText"
+              class="text_Area"
+              spellcheck="false"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+
+  <script>
+    const SelfGujaratiToEnglishMap = {
+      ક: "ka",
+      કા: "ka",
+      કિ: "ki",
+      કી: "ki",
+      કુ: "ku",
+      કૂ: "ku",
+      કે: "ke",
+      કૈ: "kai",
+      કો: "ko",
+      કૌ: "kau",
+      કં: "kan",
+      કઃ: "kah",
+      કૅ: "ke",
+      કૉ: "ko",
+      ખ: "kha",
+      ખા: "kha",
+      ખિ: "khi",
+      ખી: "khi",
+      ખુ: "khu",
+      ખૂ: "khu",
+      ખે: "khe",
+      ખૈ: "khai",
+      ખો: "kho",
+      ખૌ: "khau",
+      ખં: "khan",
+      ખઃ: "khah",
+      ખૅ: "khe",
+      ખૉ: "kho",
+      ગ: "ga",
+      ગા: "ga",
+      ગિ: "gi",
+      ગી: "gi",
+      ગુ: "gu",
+      ગૂ: "gu",
+      ગે: "ge",
+      ગૈ: "gai",
+      ગો: "go",
+      ગૌ: "gau",
+      ગં: "gan",
+      ગઃ: "gah",
+      ગૅ: "ge",
+      ગૉ: "go",
+      ઘ: "gha",
+      ઘા: "gha",
+      ઘિ: "ghi",
+      ઘી: "ghi",
+      ઘુ: "ghu",
+      ઘૂ: "ghu",
+      ઘે: "ghe",
+      ઘૈ: "ghai",
+      ઘો: "gho",
+      ઘૌ: "ghau",
+      ઘં: "ghan",
+      ઘઃ: "ghah",
+      ઘૅ: "ghe",
+      ઘૉ: "gho",
+      ચ: "cha",
+      ચા: "cha",
+      ચિ: "chi",
+      ચી: "chi",
+      ચુ: "chu",
+      ચૂ: "chu",
+      ચે: "che",
+      ચૈ: "chai",
+      ચો: "cho",
+      ચૌ: "chau",
+      ચં: "chan",
+      ચઃ: "chah",
+      ચૅ: "che",
+      ચૉ: "cho",
+      છ: "chha",
+      છા: "chha",
+      છિ: "chhi",
+      છી: "chhi",
+      છુ: "chhu",
+      છૂ: "chhu",
+      છે: "chhe",
+      છૈ: "chhai",
+      છો: "chho",
+      છૌ: "chhau",
+      છં: "chhan",
+      છઃ: "chhah",
+      છૅ: "chhe",
+      છૉ: "chho",
+      જ: "ja",
+      જા: "ja",
+      જિ: "ji",
+      જી: "ji",
+      જુ: "ju",
+      જૂ: "ju",
+      જે: "je",
+      જૈ: "jai",
+      જો: "jo",
+      જૌ: "jau",
+      જં: "jan",
+      જઃ: "jah",
+      જૅ: "je",
+      જૉ: "jo",
+      ઝ: "zha",
+      ઝા: "zha",
+      ઝિ: "zhi",
+      ઝી: "zhi",
+      ઝુ: "zhu",
+      ઝૂ: "zhu",
+      ઝે: "zhe",
+      ઝૈ: "zhai",
+      ઝો: "zho",
+      ઝૌ: "zhau",
+      ઝં: "zhan",
+      ઝઃ: "zhah",
+      ઝૅ: "zhe",
+      ઝૉ: "zho",
+      ટ: "ta",
+      ટા: "ta",
+      ટિ: "ti",
+      ટી: "ti",
+      ટુ: "tu",
+      ટૂ: "tu",
+      ટે: "te",
+      ટૈ: "tai",
+      ટો: "to",
+      ટૌ: "tau",
+      ટં: "tan",
+      ટઃ: "tah",
+      ટૅ: "te",
+      ટૉ: "to",
+      ઠ: "tha",
+      ઠા: "tha",
+      ઠિ: "thi",
+      ઠી: "thi",
+      ઠુ: "thu",
+      ઠૂ: "thu",
+      ઠે: "the",
+      ઠૈ: "thai",
+      ઠો: "tho",
+      ઠૌ: "thau",
+      ઠં: "than",
+      ઠઃ: "thah",
+      ઠૅ: "the",
+      ઠૉ: "tho",
+      ડ: "da",
+      ડા: "da",
+      ડિ: "di",
+      ડી: "di",
+      ડુ: "du",
+      ડૂ: "du",
+      ડે: "de",
+      ડૈ: "dai",
+      ડો: "do",
+      ડૌ: "dau",
+      ડં: "dan",
+      ડઃ: "dah",
+      ડૅ: "de",
+      ડૉ: "do",
+      ઢ: "dha",
+      ઢા: "dha",
+      ઢિ: "dhi",
+      ઢી: "dhi",
+      ઢુ: "dhu",
+      ઢૂ: "dhu",
+      ઢે: "dhe",
+      ઢૈ: "dhai",
+      ઢો: "dho",
+      ઢૌ: "dhau",
+      ઢં: "dhan",
+      ઢઃ: "dhah",
+      ઢૅ: "dhe",
+      ઢૉ: "dho",
+      ણ: "na",
+      ણા: "na",
+      ણિ: "ni",
+      ણી: "ni",
+      ણુ: "nu",
+      ણૂ: "nu",
+      ણે: "ne",
+      ણૈ: "nai",
+      ણો: "no",
+      ણૌ: "nau",
+      ણં: "nan",
+      ણઃ: "nah",
+      ણૅ: "ne",
+      ણૉ: "no",
+      ત: "ta",
+      તા: "ta",
+      તિ: "ti",
+      તી: "ti",
+      તુ: "tu",
+      તૂ: "tu",
+      તે: "te",
+      તૈ: "tai",
+      તો: "to",
+      તૌ: "tau",
+      તં: "tan",
+      તઃ: "tah",
+      તૅ: "te",
+      તૉ: "to",
+      થ: "tha",
+      થા: "tha",
+      થિ: "thi",
+      થી: "thi",
+      થુ: "thu",
+      થૂ: "thu",
+      થે: "the",
+      થૈ: "thai",
+      થો: "tho",
+      થૌ: "thau",
+      થં: "than",
+      થઃ: "thah",
+      થૅ: "the",
+      થૉ: "tho",
+      દ: "da",
+      દા: "da",
+      દિ: "di",
+      દી: "di",
+      દુ: "du",
+      દૂ: "du",
+      દે: "de",
+      દૈ: "dai",
+      દો: "do",
+      દૌ: "dau",
+      દં: "dan",
+      દઃ: "dah",
+      દૅ: "de",
+      દૉ: "do",
+      ધ: "dha",
+      ધા: "dha",
+      ધિ: "dhi",
+      ધી: "dhi",
+      ધુ: "dhu",
+      ધૂ: "dhu",
+      ધે: "dhe",
+      ધૈ: "dhai",
+      ધો: "dho",
+      ધૌ: "dhau",
+      ધં: "dhan",
+      ધઃ: "dhah",
+      ધૅ: "dhe",
+      ધૉ: "dho",
+      ન: "na",
+      ના: "na",
+      નિ: "ni",
+      ની: "ni",
+      નુ: "nu",
+      નૂ: "nu",
+      ને: "ne",
+      નૈ: "nai",
+      નો: "no",
+      નૌ: "nau",
+      નં: "nan",
+      નઃ: "nah",
+      નૅ: "ne",
+      નૉ: "no",
+      પ: "pa",
+      પા: "pa",
+      પિ: "pi",
+      પી: "pi",
+      પુ: "pu",
+      પૂ: "pu",
+      પે: "pe",
+      પૈ: "pai",
+      પો: "po",
+      પૌ: "pau",
+      પં: "pan",
+      પઃ: "pah",
+      પૅ: "pe",
+      પૉ: "po",
+      ફ: "fa",
+      ફા: "fa",
+      ફિ: "fi",
+      ફી: "fi",
+      ફુ: "fu",
+      ફૂ: "fu",
+      ફે: "fe",
+      ફૈ: "fai",
+      ફો: "fo",
+      ફૌ: "fau",
+      ફં: "fan",
+      ફઃ: "fah",
+      ફૅ: "fe",
+      ફૉ: "fo",
+      બ: "ba",
+      બા: "ba",
+      બિ: "bi",
+      બી: "bi",
+      બુ: "bu",
+      બૂ: "bu",
+      બે: "be",
+      બૈ: "bai",
+      બો: "bo",
+      બૌ: "bau",
+      બં: "ban",
+      બઃ: "bah",
+      બૅ: "be",
+      બૉ: "bo",
+      ભ: "bha",
+      ભા: "bha",
+      ભિ: "bhi",
+      ભી: "bhi",
+      ભુ: "bhu",
+      ભૂ: "bhu",
+      ભે: "bhe",
+      ભૈ: "bhai",
+      ભો: "bho",
+      ભૌ: "bhau",
+      ભં: "bhan",
+      ભઃ: "bhah",
+      ભૅ: "bhe",
+      ભૉ: "bho",
+      મ: "ma",
+      મા: "ma",
+      મિ: "mi",
+      મી: "mi",
+      મુ: "mu",
+      મૂ: "mu",
+      મે: "me",
+      મૈ: "mai",
+      મો: "mo",
+      મૌ: "mau",
+      મં: "man",
+      મઃ: "mah",
+      મૅ: "me",
+      મૉ: "mo",
+      ય: "ya",
+      યા: "ya",
+      યિ: "yi",
+      યી: "yi",
+      યુ: "yu",
+      યૂ: "yu",
+      યે: "ye",
+      યૈ: "yai",
+      યો: "yo",
+      યૌ: "yau",
+      યં: "yan",
+      યઃ: "yah",
+      યૅ: "ye",
+      યૉ: "yo",
+      ર: "ra",
+      રા: "ra",
+      રિ: "ri",
+      રી: "ri",
+      રુ: "ru",
+      રૂ: "ru",
+      રે: "re",
+      રૈ: "rai",
+      રો: "ro",
+      રૌ: "rau",
+      રં: "ran",
+      રઃ: "rah",
+      રૅ: "re",
+      રૉ: "ro",
+      લ: "la",
+      લા: "la",
+      લિ: "li",
+      લી: "li",
+      લુ: "lu",
+      લૂ: "lu",
+      લે: "le",
+      લૈ: "lai",
+      લો: "lo",
+      લૌ: "lau",
+      લં: "lan",
+      લઃ: "lah",
+      લૅ: "le",
+      લૉ: "lo",
+      વ: "va",
+      વા: "va",
+      વિ: "vi",
+      વી: "vi",
+      વુ: "vu",
+      વૂ: "vu",
+      વે: "ve",
+      વૈ: "vai",
+      વો: "vo",
+      વૌ: "vau",
+      વં: "van",
+      વઃ: "vah",
+      વૅ: "ve",
+      વૉ: "vo",
+      શ: "sha",
+      શા: "sha",
+      શિ: "shi",
+      શી: "shi",
+      શુ: "shu",
+      શૂ: "shu",
+      શે: "she",
+      શૈ: "shai",
+      શો: "sho",
+      શૌ: "shau",
+      શં: "shan",
+      શઃ: "shah",
+      શૅ: "she",
+      શૉ: "sho",
+      ષ: "sha",
+      ષા: "sha",
+      ષિ: "shi",
+      ષી: "shi",
+      ષુ: "shu",
+      ષૂ: "shu",
+      ષે: "she",
+      ષૈ: "shai",
+      ષો: "sho",
+      ષૌ: "shau",
+      ષં: "shan",
+      ષઃ: "shah",
+      ષૅ: "she",
+      ષૉ: "sho",
+      સ: "sa",
+      સા: "sa",
+      સિ: "si",
+      સી: "si",
+      સુ: "su",
+      સૂ: "su",
+      સે: "se",
+      સૈ: "sai",
+      સો: "so",
+      સૌ: "sau",
+      સં: "san",
+      સઃ: "sah",
+      સૅ: "se",
+      સૉ: "so",
+      હ: "ha",
+      હા: "ha",
+      હિ: "hi",
+      હી: "hi",
+      હુ: "hu",
+      હૂ: "hu",
+      હે: "he",
+      હૈ: "hai",
+      હો: "ho",
+      હૌ: "hau",
+      હં: "han",
+      હઃ: "hah",
+      હૅ: "he",
+      હૉ: "ho",
+      ળ: "la",
+      ળા: "la",
+      ળિ: "li",
+      ળી: "li",
+      ળુ: "lu",
+      ળૂ: "lu",
+      ળે: "le",
+      ળૈ: "lai",
+      ળો: "lo",
+      ળૌ: "lau",
+      ળં: "lan",
+      ળઃ: "lah",
+      ળૅ: "le",
+      ળૉ: "lo",
+      ક્ષ: "ksh",
+      ક્ષા: "ksha",
+      ક્ષિ: "kshi",
+      ક્ષી: "kshi",
+      ક્ષુ: "kshu",
+      ક્ષૂ: "kshu",
+      ક્ષે: "kshe",
+      ક્ષૈ: "kshai",
+      ક્ષો: "ksho",
+      ક્ષૌ: "kshau",
+      ક્ષં: "kshan",
+      ક્ષઃ: "kshah",
+      ક્ષૅ: "kshe",
+      ક્ષૉ: "ksho",
+      જ્ઞ: "gya",
+      જ્ઞા: "gya",
+      જ્ઞિ: "gyi",
+      જ્ઞી: "gyi",
+      જ્ઞુ: "gyu",
+      જ્ઞૂ: "gyu",
+      જ્ઞે: "gye",
+      જ્ઞૈ: "gyai",
+      જ્ઞો: "gyo",
+      જ્ઞૌ: "gyau",
+      જ્ઞં: "gyan",
+      જ્ઞઃ: "gyah",
+      જ્ઞૅ: "gye",
+      જ્ઞૉ: "gyo",
+
+      અ: "a",
+      આ: "aa",
+      ઇ: "i",
+      ઈ: "i",
+      ઉ: "u",
+      ઊ: "u",
+      ઋ: "ru",
+      ૠ: "ru",
+      એ: "ae",
+      ઐ: "ai",
+      ઓ: "o",
+      ઔ: "au",
+
+      "ા": "a",
+      "િ": "i",
+      "ી": "i",
+      "ુ": "u",
+      "ૂ": "u",
+      "ૃ": "ru",
+      "ૄ": "ru",
+      "ૅ": "e",
+      "ે": "e",
+      "ૈ": "ai",
+      "ૉ": "o",
+      "ો": "o",
+      "ૌ": "au",
+      "્": "",
+      "ઁ": "n",
+      "ં": "n",
+      "ઃ": ":",
+
+      // extra characters
+      "૦": "",
+      ૐ: "om",
+      શ્રી: "shree",
+
+      // half characters
+      ક્: "k",
+      ખ્: "kh",
+      ગ્: "g",
+      ઘ્: "gh",
+      ઙ્: "ng",
+      ચ્: "ch",
+      છ્: "chh",
+      જ્: "j",
+      ઝ્: "jh",
+      ઞ્: "ny",
+      ઞ: "gy",
+      ટ્: "d",
+      ઠ્: "dh",
+      ડ્: "d",
+      ઢ્: "dh",
+      ણ્: "n",
+      ત્: "t",
+      થ્: "th",
+      દ્: "d",
+      ધ્: "dh",
+      ન્: "n",
+      પ્: "p",
+      ફ્: "ph",
+      બ્: "b",
+      ભ્: "bh",
+      મ્: "m",
+      ય્: "y",
+      ર્: "r",
+      લ્: "l",
+      વ્: "v",
+      શ્: "sh",
+      ષ્: "sh",
+      સ્: "s",
+      હ્: "h",
+      ળ્: "l",
+      ક્ષ્: "ksh",
+      જ્ઞ્: "g",
+    };
+
+    const lastCharacters = [
+      "ક",
+      "ખ",
+      "ગ",
+      "ઘ",
+      "ઙ",
+      "ચ",
+      "છ",
+      "જ",
+      "ઝ",
+      "ઞ",
+      "ટ",
+      "ઠ",
+      "ડ",
+      "ઢ",
+      "ણ",
+      "ત",
+      "થ",
+      "દ",
+      "ધ",
+      "ન",
+      "પ",
+      "ફ",
+      "બ",
+      "ભ",
+      "મ",
+      "ય",
+      "ર",
+      "લ",
+      "વ",
+      "શ",
+      "ષ",
+      "સ",
+      "હ",
+    ];
+
+    const middleChar = ["ૃ", "ૄ", "ૅ", "ે", "ૈ", "ૉ", "ો", "ૌ", "્", "ઁ", "ઃ"];
+
+    const sulekhToGujUnicodeConverter = (data) => {
+      let array_one = new Array(
+        //"a" , "ર્ી" ,
+        //"g" , "િં" ,
+        // Typeing Error Resolve
+        "oe",
+        "œ",
+
+        "wâ",
+        "Ø",
+        "wí",
+        "Øë",
+        "wî",
+        "Øì",
+        "wo",
+        "Øe",
+        "wO",
+        "ØE",
+        "wâý",
+        "Øý",
+        "wâô",
+        "Øô",
+
+        "tâ",
+        "È",
+        "tí",
+        "Èë",
+        "tî",
+        "Èì",
+        "to",
+        "Èe",
+        "tO",
+        "ÈE",
+        "tâý",
+        "Èý",
+        "tâô",
+        "Èô",
+
+        "Tâ",
+        "É",
+        "Tí",
+        "Éë",
+        "Tî",
+        "Éì",
+        "To",
+        "Ée",
+        "TO",
+        "ÉE",
+        "Tâý",
+        "Éý",
+        "Tâô",
+        "Éô",
+
+        "yâ",
+        "Ò",
+        "yí",
+        "Òë",
+        "yî",
+        "Òì",
+        "yo",
+        "Òe",
+        "yO",
+        "ÒE",
+        "yâý",
+        "Òý",
+        "yâô",
+        "Òô",
+
+        "pâ",
+        "Í",
+        "pí",
+        "Íë",
+        "pî",
+        "Íì",
+        "po",
+        "Íe",
+        "pO",
+        "ÍE",
+        "pâý",
+        "Íý",
+        "pâô",
+        "Íô",
+
+        "sâ",
+        "Ö",
+        "sí",
+        "Öë",
+        "sî",
+        "Öì",
+        "so",
+        "Öe",
+        "sO",
+        "ÖE",
+        "sâý",
+        "Öý",
+        "sâô",
+        "Öô",
+
+        "Sâ",
+        "×",
+        "Sí",
+        "×ë",
+        "Sî",
+        "×ì",
+        "So",
+        "×e",
+        "SO",
+        "×E",
+        "Sâý",
+        "×ý",
+        "Sâô",
+        "×ô",
+
+        "Dâ",
+        "Ë",
+        "Dí",
+        "Ëë",
+        "Dî",
+        "Ëì",
+        "Do",
+        "Ëe",
+        "DO",
+        "ËE",
+        "Dâý",
+        "Ëý",
+        "Dâô",
+        "Ëô",
+
+        "gâ",
+        "½",
+        "gí",
+        "½ë",
+        "gî",
+        "½ì",
+        "go",
+        "½e",
+        "gO",
+        "½E",
+        "gâý",
+        "½ý",
+        "gâô",
+        "½ô",
+
+        "Gâ",
+        "¾",
+        "Gí",
+        "¾ë",
+        "Gî",
+        "¾ì",
+        "Go",
+        "¾e",
+        "GO",
+        "¾E",
+        "Gâý",
+        "¾ý",
+        "Gâô",
+        "¾ô",
+
+        "Kâ",
+        "¼",
+        "Kí",
+        "¼ë",
+        "Kî",
+        "¼ì",
+        "Ko",
+        "¼e",
+        "KO",
+        "¼E",
+        "Kâý",
+        "¼ý",
+        "Kâô",
+        "¼ô",
+
+        "lâ",
+        "Ô",
+        "lí",
+        "Ôë",
+        "lî",
+        "Ôì",
+        "lo",
+        "Ôe",
+        "lO",
+        "ÔE",
+        "lâý",
+        "Ôý",
+        "lâô",
+        "Ôô",
+
+        "xâ",
+        "Ü",
+        "xí",
+        "Üë",
+        "xî",
+        "Üì",
+        "xo",
+        "Üe",
+        "xO",
+        "ÜE",
+        "xâý",
+        "Üý",
+        "xâô",
+        "Üô",
+
+        "câ",
+        "¿",
+        "cí",
+        "¿ë",
+        "cî",
+        "¿ì",
+        "co",
+        "¿e",
+        "cO",
+        "¿E",
+        "câý",
+        "¿ý",
+        "câô",
+        "¿ô",
+
+        "vâ",
+        "Õ",
+        "ví",
+        "Õë",
+        "vî",
+        "Õì",
+        "vo",
+        "Õe",
+        "vO",
+        "ÕE",
+        "vâý",
+        "Õý",
+        "vâô",
+        "Õô",
+
+        "bâ",
+        "Ï",
+        "bí",
+        "Ïë",
+        "bî",
+        "Ïì",
+        "bo",
+        "Ïe",
+        "bO",
+        "ÏE",
+        "bâý",
+        "Ïý",
+        "bâô",
+        "Ïô",
+
+        "Bâ",
+        "Ð",
+        "Bí",
+        "Ðë",
+        "Bî",
+        "Ðì",
+        "Bo",
+        "Ðe",
+        "BO",
+        "ÐE",
+        "Bâý",
+        "Ðý",
+        "Bâô",
+        "Ðô",
+
+        "nâ",
+        "Ì",
+        "ní",
+        "Ìë",
+        "nî",
+        "Ìì",
+        "no",
+        "Ìe",
+        "nO",
+        "ÌE",
+        "nâý",
+        "Ìý",
+        "nâô",
+        "Ìô",
+
+        "Nâ",
+        "Ç",
+        "Ní",
+        "Çë",
+        "Nî",
+        "Çì",
+        "No",
+        "Çe",
+        "NO",
+        "ÇE",
+        "Nâý",
+        "Çý",
+        "Nâô",
+        "Çô",
+
+        "mâ",
+        "Ñ",
+        "mí",
+        "Ñë",
+        "mî",
+        "Ñì",
+        "mo",
+        "Ñe",
+        "mO",
+        "ÑE",
+        "mâý",
+        "Ñý",
+        "mâô",
+        "Ñô",
+
+        //========================end of error resolve
+        "A",
+        "ૐ",
+        "áí",
+        "ઓ",
+        "áî",
+        "ઔ",
+        "áë",
+        "એ",
+        "á&",
+        "ઍ",
+        "áì",
+        "ઐ",
+        "á&",
+        "ઍ",
+        "çý",
+        "ýç",
+        "áâ&",
+        "ઑ",
+        "áâ",
+        "આ",
+        "á",
+        "અ",
+        "å",
+        "ઇ",
+        "æ",
+        "ઈ",
+        "é",
+        "ઉ",
+        "ê",
+        "ઊ",
+        "°",
+        "ઋ",
+        "Âý",
+        "ઝ્ર",
+        "WÕ",
+        "શ્વ",
+        //"", "ઌ", // Lri
+        "ƒ",
+        "ન્ન",
+        "š",
+        "ઈં",
+        "™",
+        "ઇં",
+        "ø",
+        "ઉં",
+        "\u003b",
+        "\u0abd",
+        "ù",
+        "ઊં",
+        "ïý",
+        "ýï",
+        "ëý",
+        "ýë",
+
+        "xâ",
+        "ક્ષ",
+        "Ü",
+        "ક્ષ",
+        "Ý",
+        "ત્ર",
+        "Þ",
+        "જ્ઞ",
+        "Q",
+        "ઠ્ઠ",
+        "x",
+        "ક્ષ્",
+        "X",
+        "ત્ર્",
+        "Þz",
+        "જ્ઞ્",
+        //"ï", "ં",
+        //"ý", "્ર",
+        //"÷", "્ર",
+        "ß",
+        "્રુ",
+        "à",
+        "્રૂ",
+        "¦",
+        "દૃ",
+        "±",
+        "ૠ",
+        //"Óz" , //"ર્" ,
+        "’ë",
+        "જો",
+        "Êz",
+        "દ્‌",
+        "q",
+        "ટ્ટ",
+        "V",
+        "ટ્ઠ",
+        "f",
+        "ડ્ડ",
+        "f",
+        "ડ્ડ",
+        "tÌ",
+        "ત્ન",
+
+        "F",
+        "ઢ્ઢ",
+        "¤",
+        "હ્લ",
+        "²",
+        "ડ્ઢ",
+        "²",
+        "ડ્ઢ",
+        "ÚzÌ",
+        "હ્ન",
+        "ÚzÌ",
+        "હ્ન",
+        "SÌ",
+        "શ્ન",
+        "ƒz",
+        "ન્ન્",
+        "S¿",
+        "શ્ચ",
+        "az»",
+        "ઙ્ક",
+        "az¼",
+        "ઙ્ખ",
+        "az½",
+        "ઙ્ગ",
+        "az¾",
+        "ઙ્ઘ",
+        "Öýz",
+        "સ્ર્",
+        "¢",
+        "હ્મ",
+        "{",
+        "હ્ન",
+        "ñ",
+        "\u003b",
+        "\u201a",
+        "્ન",
+        "H",
+        "હ્વ",
+        "d",
+        "દ્રુ",
+        "Êz¾",
+        "દ્ઘ",
+        "©",
+        "દ્બ",
+        "ÊzÐ",
+        "દ્ભ",
+        "M",
+        "દ્મ",
+        "]",
+        "દ્વ",
+
+        "Êz½",
+        "દ્ગ",
+        "}",
+        "દ્ધ",
+        "¨",
+        "દ્ર",
+        "Í‚",
+        "પ્ન",
+        "Íý",
+        "પ્ર",
+        "`â",
+        "જ્રા",
+        "`",
+        "જ્ર",
+        "‘",
+        "જી",
+        "tí",
+        "તે",
+
+        "k",
+        "ક્",
+        "n",
+        "ન્",
+        "’",
+        "જા",
+        "[z",
+        "હ્ય્",
+        "[z",
+        "હ્ય્",
+        "kÌ",
+        "ક્ન",
+        "®",
+        "ક્ર",
+        "<",
+        "ફ્ર",
+        "Îz",
+        "ફ્",
+
+        "Çç",
+        "ણુ",
+        "Çè",
+        "ણૂ",
+        "Îç",
+        "ફુ",
+        "Îè",
+        "ફૂ",
+        "S",
+        "શ્",
+        "sÝz",
+        "સ્ત્ર્",
+        "^â",
+        "ત્ત",
+        "^",
+        "ત્ત્",
+        "Ù",
+        "શ્ર",
+        "wÃ",
+        "ષ્ટ",
+        "wÄ",
+        "ષ્ઠ",
+
+        "W",
+        "શ્ર્",
+        "—",
+        "શ્ન",
+        "ØzÃ",
+        "ષ્ટ",
+        "ØzÄ",
+        "ષ્ઠ",
+        "@",
+        "શ્ચ",
+        "WÕ",
+        "શ્વ",
+        "œ",
+        "શ્વ",
+        "sn",
+        "સ્ન્",
+        "§",
+        "દ્દ",
+        "¥",
+        "ય",
+        "r",
+        "રુ",
+        "R",
+        "રૂ",
+        "#",
+        "રૂ",
+        "_",
+        "હૃ",
+        ">",
+        "ક્ક",
+        "Y",
+        "દ્ય",
+        "~",
+        "જ્જ",
+
+        "K",
+        "ખ્",
+        "g",
+        "ગ્",
+        "G",
+        "ઘ્",
+        "Â",
+        "ઝ",
+        "c",
+        "ચ્",
+        "j",
+        "જ્",
+
+        "J",
+        "ઝ્",
+        ":â",
+        "ઞ",
+        ":",
+        "ઞ્",
+        "N",
+        "ણ્",
+        "t",
+        "ત્",
+        "T",
+        "થ્",
+        "D",
+        "ધ્",
+        "n",
+        "ન્",
+        "p",
+        "પ્",
+        "Î",
+        "ફ",
+        "b",
+        "બ્",
+        "B",
+        "ભ્",
+        "m",
+        "મ્",
+        "y",
+        "ય્",
+        "l",
+        "લ્",
+        "v",
+        "વ્",
+        "S",
+        "શ્",
+        "s",
+        "સ્",
+        "w",
+        "ષ્",
+        "h",
+        "હ્",
+        "L",
+        "ળ્",
+
+        "u",
+        "ુ",
+        "Î",
+        "ફ઼",
+        "»",
+        "ક",
+        "¡",
+        "હ્ર",
+
+        //
+        "¼",
+        "ખ",
+        "½",
+        "ગ",
+        "a",
+        "ઙ",
+        "¿",
+        "ચ",
+        "À",
+        "છ",
+        "Á",
+        "જ",
+        "Â",
+        "ઝ",
+
+        "Ã",
+        "ટ",
+        "Ä",
+        "ઠ",
+        "Å",
+        "ડ",
+        "Æ",
+        "ઢ",
+        "Ç",
+        "ણ",
+        "È",
+        "ત",
+        "É",
+        "થ",
+        "Ê",
+        "દ",
+        "Ë",
+        "ધ",
+        "Ì",
+        "ન",
+        "¾",
+        "ઘ",
+
+        "[",
+        "હ્ય",
+        "Í",
+        "પ",
+        "Î",
+        "ફ",
+        "Ï",
+        "બ",
+        "Ð",
+        "ભ",
+        "Ñ",
+        "મ",
+
+        "Ò",
+        "ય",
+        //"Óz", "ર્",
+        "ó",
+        "।",
+        "Ó",
+        "ર",
+        "Ô",
+        "લ",
+        "Õ",
+        "વ",
+        "×",
+        "શ",
+        "Ø",
+        "ષ",
+        "Ö",
+        "સ",
+        "Ú",
+        "હ",
+
+        "Û",
+        "ળ",
+        "\u00f7",
+        "્ર",
+        "\u004f",
+        "ૌં",
+        "\u0050",
+        "ફ્",
+        "\u0055",
+        "ૂ",
+        "\u00ab",
+        "\u00f7",
+        "\u003f",
+        "\u0078",
+
+        "\u00fa",
+        "ૅ",
+        "\u0026",
+        "ૅ",
+
+        "|",
+        "þં",
+
+        "¬",
+        "?",
+        "“ö",
+        "ëૃ",
+
+        //"\", "ર્ંિ",
+        "âì",
+        "ૌ",
+        "âë",
+        "ો",
+
+        "ä",
+        "ી",
+        "î",
+        "ૌ",
+        "ë",
+        "ે",
+        "ì",
+        "ૈ",
+        "o",
+        "ોં",
+        "í",
+        "ો", //chek it
+        "î",
+        "ૌ",
+        //"í", "ે", //chek it
+        "ë",
+        "ૅ",
+        "â",
+        "ા",
+        "ð",
+        ":",
+        //"ñ", ":",
+        // "ì" , "િ" ,
+        "*",
+        "ã",
+        "I",
+        "ીં",
+        "ä",
+        "ી",
+        "ç",
+        "ુ",
+        "è",
+        "ૂ",
+        "ç",
+        "ુ",
+        "è",
+        "ૂ",
+        "ç",
+        "ુ",
+        "è",
+        "ૂ",
+        "ç",
+        "ુ",
+        "è",
+        "ૂ",
+        "ö",
+        "ૃ",
+
+        "ö",
+        "ૃ",
+        "ë",
+        "ે",
+        "ì",
+        "ૈ",
+        "ë",
+        "ે",
+        "ì",
+        "ૈ",
+
+        "û",
+        "ઁ",
+        "û",
+        "ઁ",
+        //"ï", "ં",
+        "ï",
+        "ં",
+        "ð",
+        "ઃ",
+        "z",
+        "્",
+
+        "E",
+        "ૈં",
+        "e",
+        "ેં",
+        "e",
+        "ૅં",
+        //'\u005C', 'ર્ãં',
+        //",", ",",
+        //"ãý" ,"ýã",
+        //";", "ઽ",  // what is this?
+        "d",
+        "।",
+        "\u0022",
+        "\u2018",
+        "\u0027",
+        "\u2019",
+        //"'" , "’",
+        //"ē", "ં",
+        //---------
+        "0",
+        "૦",
+        "1",
+        "૧",
+        "2",
+        "૨",
+        "3",
+        "૩",
+        "4",
+        "૪",
+        "5",
+        "૫",
+        "6",
+        "૬",
+        "7",
+        "૭",
+        "8",
+        "૮",
+        "9",
+        "૯"
+      );
+
+      let array_one_length = array_one.length;
+
+      let text_size = data.length;
+
+      let processed_text = "";
+
+      let sthiti1 = 0;
+      let sthiti2 = 0;
+      let chale_chalo = 1;
+
+      let max_text_size = 20000;
+
+      while (chale_chalo === 1) {
+        sthiti1 = sthiti2;
+
+        if (sthiti2 < text_size - max_text_size) {
+          sthiti2 += max_text_size;
+          while (data.charAt(sthiti2) !== " ") {
+            sthiti2--;
+          }
+        } else {
+          sthiti2 = text_size;
+          chale_chalo = 0;
+        }
+
+        let modified_substring = data.substring(sthiti1, sthiti2);
+
+        processed_text += Replace_Symbols(modified_substring);
+
+        return processed_text;
+      }
+
+      function Replace_Symbols(value) {
+        if (value !== "") {
+          for (
+            let input_symbol_idx = 0;
+            input_symbol_idx < array_one_length - 1;
+            input_symbol_idx = input_symbol_idx + 2
+          ) {
+            let idx = 0;
+
+            while (idx !== -1) {
+              value = value.replace(
+                array_one[input_symbol_idx],
+                array_one[input_symbol_idx + 1]
+              );
+              idx = value.indexOf(array_one[input_symbol_idx]);
+            }
+          }
+
+          value = value.replace(/ý/g, "્ર");
+          value = value.replace(/\u005C/g, "ંર્ã");
+          value = value.replace(/ü/g, "ર્ã");
+
+          value = value.replace(
+            /([ãi*])([કખગઘઙચછજઝઞટઠડઢણતથદધનપફબભમયરલવશષસહળ])/g,
+            "$2$1"
+          );
+
+          value = value.replace(
+            /([ãi*])(્)([કખગઘઙચછજઝઞટઠડઢણતથદધનપફબભમયરલવશષસહળ])/g,
+            "$2$3$1"
+          );
+
+          value = value.replace(
+            /([ãi*])(્)([કખગઘઙચછજઝઞટઠડઢણતથદધનપફબભમયરલવશષસહળ])/g,
+            "$2$3$1"
+          );
+
+          value = value.replace(/ã/g, "િ");
+
+          value = value.replace(/i/g, "િં");
+
+          value = value.replace(/þ/g, "ôી");
+
+          value = value.replace(/õ/g, "ંô");
+
+          value = value.replace(
+            /([કખગઘઙચછજઝઞટઠડઢણતથદધનપફબભમયરલવશષસહળ])([ાિીુૂૃેૈોૌંઁૅૉ઼]*)([ô])/g,
+            "$3$1$2"
+          );
+
+          value = value.replace(
+            /([કખગઘઙચછજઝઞટઠડઢણતથદધનપફબભમયરલવશષસહળ])([્])([ô])/g,
+            "$3$1$2"
+          );
+
+          value = value.replace(
+            /([કખગઘઙચછજઝઞટઠડઢણતથદધનપફબભમયરલવશષસહળ])([્])([ô])/g,
+            "$3$1$2"
+          );
+
+          value = value.replace(/ô/g, "ર્");
+
+          value = value.replace(/([ંઁ॰])([ાિીુૂૃેૈોૌૅૉ])/g, "$2$1");
+
+          value = value.replace(/([ાિીુૂૃેૈોૌૅૉઁ])([ાિીુૂૃેૈોૌૅૉ])/g, "$1");
+        }
+        return value;
+      }
+    };
+
+    const gujUnicodeToEnglish = (data) => {
+      let transliteratedText = "";
+
+      let i = 0;
+      while (i < data.length) {
+        let isLastChar = data[i - 1];
+        let currentChar = data[i];
+        let nextChar = data[i + 1];
+        let secondNextChar = data[i + 2];
+
+        if (
+          (currentChar === "." && nextChar === "." && secondNextChar === ".") ||
+          currentChar === "ઞ"
+        ) {
+          transliteratedText = transliteratedText.slice(
+            0,
+            transliteratedText.length - 1
+          );
+        }
+        let combination = currentChar + nextChar;
+        if (combination in SelfGujaratiToEnglishMap) {
+          transliteratedText += SelfGujaratiToEnglishMap[combination];
+          i += 2;
+        } else if (currentChar in SelfGujaratiToEnglishMap) {
+          transliteratedText += SelfGujaratiToEnglishMap[currentChar];
+          i += 1;
+        } else {
+          transliteratedText += currentChar;
+          i += 1;
+        }
+        lastCharacters.map((character) => {
+          if (
+            currentChar === character &&
+            (nextChar === " " || nextChar === ",")
+          ) {
+            transliteratedText = transliteratedText.slice(
+              0,
+              transliteratedText.length - 1
+            );
+          }
+        });
+        middleChar.map((character) => {
+          if (currentChar === character) {
+            transliteratedText = transliteratedText.slice(
+              0,
+              transliteratedText.length - 1
+            );
+          }
+        });
+      }
+      return transliteratedText;
+    };
+
+    const gujUnicodeToHindi = (data) => {
+      var all_scripts = 12; // number of total scripts dealt in this program
+
+      var Lipi_name = [
+        "ગુજરાતી",
+        "बांग्ला",
+        "ओडिया",
+        "गुरुमुखी",
+        "कन्नड",
+        "तेलुगु",
+        "मलयालम",
+        "तमिल",
+        "सिंहल",
+        "तिब्बती",
+        "थाई",
+        "बर्मी",
+      ];
+
+      var Lipi = new Array(all_scripts); // stores the conversion pairs of various scripts
+
+      // to store the number of charecters of each script found in the source text.
+      var n_char = new Array(all_scripts + 1);
+      for (l_n = 0; l_n < all_scripts + 1; l_n++) {
+        n_char[l_n] = 0;
+      }
+
+      var max_char_lipi_sankhya = 0;
+      var n_char_max = 0; // max number of char found for any one script
+      var l_n = 0; // counter to count scripts
+
+      //== Lipi Conversion data =================
+
+      // Bangla Script
+
+      Lipi[3] = [
+        "য়",
+        "य", // two byte
+        "ব়",
+        "र", // two byte
+        "ড়",
+        "ड़", //two byte
+        "ঢ়",
+        "ढ़", //two byte
+
+        "ক",
+        "क",
+        "খ",
+        "ख",
+        "গ",
+        "ग",
+        "ঘ",
+        "घ",
+        "ঙ",
+        "ङ",
+        "চ",
+        "च",
+        "ছ",
+        "छ",
+        "জ",
+        "ज",
+        "ঝ",
+        "झ",
+        "ঞ",
+        "ञ",
+        "ট",
+        "ट",
+        "ঠ",
+        "ठ",
+        "ড",
+        "ड",
+        "ড়",
+        "ड़",
+        "ঢ",
+        "ढ",
+        "ণ",
+        "ण",
+        "ত",
+        "त",
+        "ৎ",
+        "त्",
+        "থ",
+        "थ",
+        "দ",
+        "द",
+        "ধ",
+        "ध",
+        "ন",
+        "न",
+        "প",
+        "प",
+        "ফ",
+        "फ",
+        "ব",
+        "ब",
+        "ভ",
+        "भ",
+        "ম",
+        "म",
+        "য",
+        "य",
+        "য়",
+        "य",
+        "র",
+        "र",
+        "ল",
+        "ल",
+        "শ",
+        "श",
+        "ষ",
+        "ष",
+        "স",
+        "स",
+        "হ",
+        "ह",
+        "ক্ষ",
+        "क्ष",
+        "জ্ঞ",
+        "ज्ञ",
+        "৻",
+        "।",
+
+        "ো",
+        "ो", //This case is seen sometimes on BBC Bangla text. Though it is not as per Unicode norm.
+        "ৌ",
+        "ौ",
+
+        "্",
+        "्",
+        "া",
+        "ा",
+        "ি",
+        "ि",
+        "ী",
+        "ी",
+        "ু",
+        "ु",
+        "ূ",
+        "ू",
+        "ৃ",
+        "ृ",
+        "ে",
+        "े",
+        "ৈ",
+        "ै",
+        "ো",
+        "ो",
+        "ৌ",
+        "ौ",
+        "ং",
+        "ं",
+        "ঁ",
+        "ँ",
+        "ঃ",
+        "ः",
+
+        "অ",
+        "अ",
+        "আ",
+        "आ",
+        "ই",
+        "इ",
+        "ঈ",
+        "ई",
+        "উ",
+        "उ",
+        "ঊ",
+        "ऊ",
+        "ঋ",
+        "ऋ",
+        "এ",
+        "ए",
+        "ঐ",
+        "ऐ",
+        "ও",
+        "ओ",
+        "ঔ",
+        "औ",
+
+        "০",
+        "०",
+        "১",
+        "१",
+        "২",
+        "२",
+        "৩",
+        "३",
+        "৪",
+        "४",
+        "৫",
+        "५",
+        "৬",
+        "६",
+        "৭",
+        "७",
+        "৮",
+        "८",
+        "৯",
+        "९",
+      ];
+
+      // ===============================================================
+      // Odiya Script
+
+      Lipi[1] = [
+        "ଡ଼",
+        "ड़",
+        "ଢ଼",
+        "ढ़",
+        "ୟ",
+        "य़",
+
+        "କ",
+        "क",
+        "ଖ",
+        "ख",
+        "ଗ",
+        "ग",
+        "ଘ",
+        "घ",
+        "ଙ",
+        "ङ",
+        "ଚ",
+        "च",
+        "ଛ",
+        "छ",
+        "ଜ",
+        "ज",
+        "ଝ",
+        "झ",
+        "ଞ",
+        "ञ",
+
+        "ଟ",
+        "ट",
+        "ଠ",
+        "ठ",
+        "ଡ",
+        "ड",
+        "ଢ",
+        "ढ",
+        "ଣ",
+        "ण",
+        "ତ",
+        "त",
+        "ଥ",
+        "थ",
+        "ଦ",
+        "द",
+        "ଧ",
+        "ध",
+        "ନ",
+        "न",
+
+        "ପ",
+        "प",
+        "ଫ",
+        "फ",
+        "ବ",
+        "ब",
+        "ଭ",
+        "भ",
+        "ମ",
+        "म",
+        "ଯ",
+        "य",
+        "ର",
+        "र",
+        "ଲ",
+        "ल",
+        "ଳ",
+        "ळ",
+        "ୱ",
+        "व",
+        "ଶ",
+        "श",
+        "ଷ",
+        "ष",
+        "ସ",
+        "स",
+        "ହ",
+        "ह",
+
+        //--------------
+
+        "ଁ",
+        "ँ",
+        "ଂ",
+        "ं",
+        "ଃ",
+        "ः",
+        "଼",
+        "़",
+        "ଽ",
+        "ऽ",
+        "୍",
+        "्",
+
+        "ଅ",
+        "अ",
+        "ଆ",
+        "आ",
+        "ା",
+        "ा",
+        "ଇ",
+        "इ",
+        "ି",
+        "ि",
+        "ଈ",
+        "ई",
+        "ୀ",
+        "ी",
+        "ଉ",
+        "उ",
+        "ୁ",
+        "ु",
+        "ଊ",
+        "ऊ",
+        "ୂ",
+        "ू",
+
+        "ଏ",
+        "ए",
+        "େ",
+        "े",
+        "ଐ",
+        "ऐ",
+        "ୈ",
+        "ै",
+
+        "ଓ",
+        "ओ",
+        "ୋ",
+        "ो",
+        "ଔ",
+        "औ",
+        "ୌ",
+        "ौ",
+        "ଋ",
+        "ऋ",
+        "ୃ",
+        "ृ",
+        "ୠ",
+        "ॠ",
+        "ଌ",
+        "ऌ",
+        "ୡ",
+        "ॡ",
+
+        "୦",
+        "०",
+        "୧",
+        "१",
+        "୨",
+        "२",
+        "୩",
+        "३",
+        "୪",
+        "४",
+        "୫",
+        "५",
+        "୬",
+        "६",
+        "୭",
+        "७",
+        "୮",
+        "८",
+        "୯",
+        "९",
+      ];
+
+      //=======================================================================
+      // Punjabi Script
+
+      Lipi[2] = [
+        "ਕ",
+        "क",
+        "ਖ",
+        "ख",
+        "ਗ",
+        "ग",
+        "ਘ",
+        "घ",
+        "ਙ",
+        "ङ",
+        "ਚ",
+        "च",
+        "ਛ",
+        "छ",
+        "ਜ",
+        "ज",
+        "ਝ",
+        "झ",
+        "ਞ",
+        "ञ",
+        "ਟ",
+        "ट",
+        "ਠ",
+        "ठ",
+        "ਡ",
+        "ड",
+        "ਢ",
+        "ढ",
+        "ਣ",
+        "ण",
+        "ਤ",
+        "त",
+        "ਥ",
+        "थ",
+        "ਦ",
+        "द",
+        "ਧ",
+        "ध",
+        "ਨ",
+        "न",
+        "ਪ",
+        "प",
+        "ਫ",
+        "फ",
+        "ਬ",
+        "ब",
+        "ਭ",
+        "भ",
+        "ਮ",
+        "म",
+        "ਯ",
+        "य",
+        "ਰ",
+        "र",
+        "ਲ",
+        "ल",
+        "ਵ",
+        "व",
+        "ਸ਼",
+        "श",
+        "ਸ਼",
+        "श",
+        "ਸ",
+        "स",
+        "ਹ",
+        "ह",
+
+        "ਖ਼",
+        "ख़",
+        "ਖ਼",
+        "ख़",
+        "ਗ਼",
+        "ग़",
+        "ਗ਼",
+        "ग़",
+        "ਜ਼",
+        "ज़",
+        "ਜ਼",
+        "ज़",
+        "ਫ਼",
+        "फ़",
+        "ਫ਼",
+        "फ़",
+        "ਲ਼",
+        "ल़",
+        "ਲ਼",
+        "ल़",
+
+        "ੜ",
+        "ड़",
+        "਼",
+        "़",
+
+        "੍",
+        "्",
+        "ਾ",
+        "ा",
+        "ਿ",
+        "ि",
+        "ੀ",
+        "ी",
+        "ੁ",
+        "ु",
+        "ੂ",
+        "ू",
+        "ੇ",
+        "े",
+        "ੈ",
+        "ै",
+        "ੋ",
+        "ो",
+        "ੌ",
+        "ौ",
+        "ਂ",
+        "ं",
+        "ੰ",
+        "ं",
+
+        "ਅ",
+        "अ",
+        "ਆ",
+        "आ",
+        "ਇ",
+        "इ",
+        "ਈ",
+        "ई",
+        "ਉ",
+        "उ",
+        "ਊ",
+        "ऊ",
+        "ਏ",
+        "ए",
+        "ਐ",
+        "ऐ",
+        "ਓ",
+        "ओ",
+        "ਔ",
+        "औ",
+
+        "੦",
+        "०",
+        "੧",
+        "१",
+        "੨",
+        "२",
+        "੩",
+        "३",
+        "੪",
+        "४",
+        "੫",
+        "५",
+        "੬",
+        "६",
+        "੭",
+        "७",
+        "੮",
+        "८",
+        "੯",
+        "९",
+      ];
+
+      //=================================================================================
+      // Gujarati Script
+
+      Lipi[0] = [
+        "ક",
+        "क",
+        "ખ",
+        "ख",
+        "ગ",
+        "ग",
+        "ઘ",
+        "घ",
+        "ઙ",
+        "ङ",
+        "ચ",
+        "च",
+        "છ",
+        "छ",
+        "જ",
+        "ज",
+        "ઝ",
+        "झ",
+        "ઞ",
+        "ञ",
+        "ટ",
+        "ट",
+        "ઠ",
+        "ठ",
+        "ડ",
+        "ड",
+        "ઢ",
+        "ढ",
+        "ણ",
+        "ण",
+        "ત",
+        "त",
+        "થ",
+        "थ",
+        "દ",
+        "द",
+        "ધ",
+        "ध",
+        "ન",
+        "न",
+        "પ",
+        "प",
+        "ફ",
+        "फ",
+        "બ",
+        "ब",
+        "ભ",
+        "भ",
+        "મ",
+        "म",
+        "ય",
+        "य",
+        "ર",
+        "र",
+        "લ",
+        "ल",
+        "વ",
+        "व",
+        "શ",
+        "श",
+        "ષ",
+        "ष",
+        "સ",
+        "स",
+        "હ",
+        "ह",
+        "ળ",
+        "ळ",
+        "ક્ષ",
+        "क्ष",
+        "જ્ઞ",
+        "ज्ञ",
+
+        "્",
+        "्",
+        "ા",
+        "ा",
+        "િ",
+        "ि",
+        "ી",
+        "ी",
+        "ુ",
+        "ु",
+        "ૂ",
+        "ू",
+        "ૃ",
+        "ृ",
+        "ે",
+        "े",
+        "ૈ",
+        "ै",
+        "ો",
+        "ो",
+        "ૌ",
+        "ौ",
+        "ૅ",
+        "ॉ",
+        "ૉ",
+        "ॉ",
+        "ં",
+        "ं",
+        "ઃ",
+        "ः",
+        "ઁ",
+        "ँ",
+        "ઽ",
+        "ऽ",
+
+        "અ",
+        "अ",
+        "આ",
+        "आ",
+        "ઇ",
+        "इ",
+        "ઈ",
+        "ई",
+        "ઉ",
+        "उ",
+        "ઊ",
+        "ऊ",
+        "ઋ",
+        "ऋ",
+        "એ",
+        "ए",
+        "ઐ",
+        "ऐ",
+        "ઓ",
+        "ओ",
+        "ઔ",
+        "औ",
+        "ઍ",
+        "ऍ",
+        "ઑ",
+        "ऑ",
+
+        "૦",
+        "०",
+        "૧",
+        "१",
+        "૨",
+        "२",
+        "૩",
+        "३",
+        "૪",
+        "४",
+        "૫",
+        "५",
+        "૬",
+        "६",
+        "૭",
+        "७",
+        "૮",
+        "८",
+        "૯",
+        "९",
+      ];
+
+      //=======================================================================
+      // Kannada Script
+
+      Lipi[4] = [
+        "ಅ",
+        "अ",
+        "ಆ",
+        "आ",
+        "ಇ",
+        "इ",
+        "ಈ",
+        "ई",
+        "ಉ",
+        "उ",
+        "ಊ",
+        "ऊ",
+        "ಋ",
+        "ऋ",
+        "ೠ",
+        "ॠ",
+        "ಌ",
+        "ऌ",
+        "ೡ",
+        "ॡ",
+        "\u0C8E",
+        "ऎ",
+        "ಏ",
+        "ए",
+        "ಐ",
+        "ऐ",
+        "\u0C92",
+        "ऒ",
+        "ಓ",
+        "ओ",
+        "ಔ",
+        "औ",
+
+        "ಕ",
+        "क",
+        "ಖ",
+        "ख",
+        "ಗ",
+        "ग",
+        "ಘ",
+        "घ",
+        "ಙ",
+        "ङ",
+        "ಚ",
+        "च",
+        "ಛ",
+        "छ",
+        "ಜ",
+        "ज",
+        "ಝ",
+        "झ",
+        "ಞ",
+        "ञ",
+        "ಟ",
+        "ट",
+        "ಠ",
+        "ठ",
+        "ಡ",
+        "ड",
+        "ಢ",
+        "ढ",
+        "ಣ",
+        "ण",
+        "ತ",
+        "त",
+        "ಥ",
+        "थ",
+        "ದ",
+        "द",
+        "ಧ",
+        "ध",
+        "ನ",
+        "न",
+        "ಪ",
+        "प",
+        "ಫ",
+        "फ",
+        "ಬ",
+        "ब",
+        "ಭ",
+        "भ",
+        "ಮ",
+        "म",
+
+        "ಯ",
+        "य",
+        "ರ",
+        "र",
+        "ಲ",
+        "ल",
+        "ವ",
+        "व",
+        "ಶ",
+        "श",
+        "ಷ",
+        "ष",
+        "ಸ",
+        "स",
+        "ಹ",
+        "ह",
+        "ಳ",
+        "ळ",
+
+        "फ़",
+        "ಫ",
+        "ಱ",
+        "ऱ",
+
+        "\u0C82",
+        "ं",
+        "\u0C83",
+        "ः",
+
+        "\u0CBD",
+        "ऽ", //awagraha
+        "\u0CBE",
+        "ा",
+        "\u0CBF",
+        "ि",
+        "\u0CC0",
+        "ी",
+        "\u0CC1",
+        "ु",
+        "\u0CC2",
+        "ू",
+        "\u0CC3",
+        "ृ",
+        "\u0CC4",
+        "ृ",
+
+        "\u0CC6",
+        "ॆ",
+        "\u0CC7",
+        "े",
+        "\u0CC8",
+        "ै",
+
+        "\u0CCA",
+        "ॊ",
+        "\u0CCB",
+        "ो",
+        "\u0CCC",
+        "ौ",
+        "\u0CCD",
+        "्",
+
+        "\u0CDE",
+        "\u095E", // फ़
+
+        "\u0CE2",
+        "ॢ", //lri
+        "\u0CE3",
+        "ॣ", //lrii
+
+        "ಓಂ",
+        "ॐ",
+
+        "೦",
+        "०",
+        "೧",
+        "१",
+        "೨",
+        "२",
+        "೩",
+        "३",
+        "೪",
+        "४",
+        "೫",
+        "५",
+        "೬",
+        "६",
+        "೭",
+        "७",
+        "೮",
+        "८",
+        "೯",
+        "९",
+      ];
+
+      //=======================================================================
+      // Telugu Script
+
+      Lipi[5] = [
+        "అ",
+        "अ",
+        "ఆ",
+        "आ",
+        "ఇ",
+        "इ",
+        "ఈ",
+        "ई",
+        "ఉ",
+        "उ",
+        "ఊ",
+        "ऊ",
+        "ఋ",
+        "ऋ",
+        "ౠ",
+        "ॠ",
+        "ఌ",
+        "ऌ",
+        "ౡ",
+        "ॡ",
+        "\u0C0E",
+        "ऎ",
+        "ఏ",
+        "ए",
+        "ఐ",
+        "ऐ",
+        "\u0C12",
+        "ऒ",
+        "ఓ",
+        "ओ",
+        "ఔ",
+        "औ",
+
+        "క",
+        "क",
+        "ఖ",
+        "ख",
+        "గ",
+        "ग",
+        "ఘ",
+        "घ",
+        "ఙ",
+        "ङ",
+        "చ",
+        "च",
+        "ఛ",
+        "छ",
+        "జ",
+        "ज",
+        "ఝ",
+        "झ",
+        "ఞ",
+        "ञ",
+        "ట",
+        "ट",
+        "ఠ",
+        "ठ",
+        "డ",
+        "ड",
+        "ఢ",
+        "ढ",
+        "ణ",
+        "ण",
+        "త",
+        "त",
+        "థ",
+        "थ",
+        "ద",
+        "द",
+        "ధ",
+        "ध",
+        "న",
+        "न",
+        "ప",
+        "प",
+        "ఫ",
+        "फ",
+        "బ",
+        "ब",
+        "భ",
+        "भ",
+        "మ",
+        "म",
+
+        "య",
+        "य",
+        "ర",
+        "र",
+        "ల",
+        "ल",
+        "వ",
+        "व",
+        "శ",
+        "श",
+        "ష",
+        "ष",
+        "స",
+        "स",
+        "హ",
+        "ह",
+        "ళ",
+        "ळ",
+
+        //"క" , "क़" ,
+        //"ఖ" , "ख़" ,
+        "ఱ",
+        "ऱ",
+
+        "్",
+        "्",
+        "ా",
+        "ा",
+        "ి",
+        "ि",
+        "ీ",
+        "ी",
+        "ు",
+        "ु",
+        "ూ",
+        "ू",
+        "ృ",
+        "ृ",
+        "ౄ",
+        "ृ",
+        "\u06C2",
+        "ॢ", //lri
+        "\u06C3",
+        "ॣ", //lrii
+        "ె",
+        "ॆ",
+        "ే",
+        "े",
+        "ై",
+        "ै",
+        "ొ",
+        "ॊ",
+        "ో",
+        "ो",
+        "ౌ",
+        "ौ",
+        "ం",
+        "ं",
+        "ః",
+        "ः",
+        "ఁ",
+        "ँ",
+
+        "ఽ",
+        "ऽ", //awagraha
+
+        "౦",
+        "०",
+        "౧",
+        "१",
+        "౨",
+        "२",
+        "౩",
+        "३",
+        "౪",
+        "४",
+        "౫",
+        "५",
+        "౬",
+        "६",
+        "౭",
+        "७",
+        "౮",
+        "८",
+        "౯",
+        "९",
+      ];
+
+      //========================================================================
+      // Malayalam Script
+
+      Lipi[6] = [
+        // '‍' , '' ,  // NWJ charecter (left ); Not visible here.
+
+        "ക",
+        "क",
+        "ഖ",
+        "ख",
+        "ഗ",
+        "ग",
+        "ഘ",
+        "घ",
+        "ങ",
+        "ङ",
+        "ച",
+        "च",
+        "ഛ",
+        "छ",
+        "ജ",
+        "ज",
+        "ഝ",
+        "झ",
+        "ഞ",
+        "ञ",
+        "ട",
+        "ट",
+        "ഠ",
+        "ठ",
+        "ഡ",
+        "ड",
+        "ഢ",
+        "ढ",
+        "ണ",
+        "ण",
+        "ത",
+        "त",
+        "ഥ",
+        "थ",
+        "ദ",
+        "द",
+        "ധ",
+        "ध",
+        "ന്റെ",
+        "न्टे",
+        "ന",
+        "न",
+        //'ൺ' , 'ऩ' ,  // chillu NN // न्नँ // see below
+        "പ",
+        "प",
+        "ഫ",
+        "फ",
+        "ബ",
+        "ब",
+        "ഭ",
+        "भ",
+        "മ",
+        "म",
+        "യ",
+        "य",
+        "ര",
+        "र",
+        "ററ",
+        "ट्ट",
+        "റ്റ",
+        "ट्ट",
+        "റ",
+        "ऱ",
+        "ല",
+        "ल",
+        "ള",
+        "ळ",
+        "ഴ",
+        "ऴ",
+        "വ",
+        "व",
+        "ശ",
+        "श",
+        "ഷ",
+        "ष",
+        "സ",
+        "स",
+        "ഹ",
+        "ह",
+
+        // The six Chillus or chillaaxaram ; special consonant letters that represents a pure consonant independently, without help of a virama or halant. It is 'soft halant'.
+
+        "ൺ",
+        "ण्", //CHILLU NN ṇa ണ
+        "ൻ",
+        "न्", //  Chillu-n ; but it is NOT exacty 'न्'
+        "ർ",
+        "र्", //CHILLU RR ra ര Historically from ra, not from ṟa (RRA) റ.
+        "ൽ",
+        "ल्", //CHILLU L ; la ല ; Historically from ta ത.
+        "ൾ",
+        "ळ्", //CHILLU LL ḷa ള
+        "ൿ",
+        "क्", //CHILLU K ka ക
+
+        "ം",
+        "ं",
+        "ഃ",
+        "ः",
+
+        "ഽ",
+        "ऽ", //Avagraha called 'Praslesham' in Malayalam
+        "ാ",
+        "ा",
+        "ി",
+        "ि",
+        "ീ",
+        "ी",
+        "ു",
+        "ु",
+        "ൂ",
+        "ू",
+        "ൃ",
+        "ृ",
+        "െ",
+        "ॆ",
+        "േ",
+        "े",
+        "ൈ",
+        "ै",
+        "ൊ",
+        "ॊ",
+        "ോ",
+        "ो",
+        "ൌ",
+        "ौ",
+        "ൗ",
+        "ौ", //Modern form
+
+        "ു്",
+        "्", //half-u + chandrakalaa
+        "്",
+        "्", //Chandrakalaa ; very short vovel if at the end of a word called 'saṁvr̥tōkāram'
+
+        "െ",
+        "\u0946", //short e maatraa
+        "ൊ",
+        "\u094A", //short o maatraa
+
+        "അ",
+        "अ",
+        "ആ",
+        "आ",
+        "ഇ",
+        "इ",
+        "ഈ",
+        "ई",
+        "ഉ",
+        "उ",
+        "ഊ",
+        "ऊ",
+        "ഋ",
+        "ऋ",
+        "ഌ",
+        "ऌ",
+        "എ",
+        "ऎ",
+        "ഏ",
+        "ए",
+        "ഐ",
+        "ऐ",
+        "ഒ",
+        "ऒ",
+        "ഓ",
+        "ओ",
+        "ഔ",
+        "औ",
+
+        "ൠ",
+        "ॠ",
+        "ൡ",
+        "ॡ",
+        "ൢ",
+        "ॢ", // lri
+        "ൣ",
+        "ॣ", //lrii
+
+        "൦",
+        "०",
+        "൧",
+        "१",
+        "൨",
+        "२",
+        "൩",
+        "३",
+        "൪",
+        "४",
+        "൫",
+        "५",
+        "൬",
+        "६",
+        "൭",
+        "७",
+        "൮",
+        "८",
+        "൯",
+        "९",
+      ];
+
+      //======================================================================
+      // Tamil Script
+
+      Lipi[7] = [
+        "அ",
+        "अ",
+        "ஆ",
+        "आ",
+        "இ",
+        "इ",
+        "ஈ",
+        "ई",
+        "உ",
+        "उ",
+        "ஊ",
+        "ऊ",
+        "எ",
+        "ऎ",
+        "ஏ",
+        "ए",
+        "ஐ",
+        "ऐ",
+        "ஒ",
+        "ऒ",
+        "ஓ",
+        "ओ",
+        "ஔ",
+        "औ",
+
+        "ஂ",
+        "ं", // added on 28-9-12 ; check if it is correct
+
+        "ா",
+        "ा",
+        "ி",
+        "ि",
+        "ீ",
+        "ी",
+        "ு",
+        "ु",
+        "ூ",
+        "ू",
+        "ெ",
+        "ॆ",
+        "ே",
+        "े",
+        "ை",
+        "ै",
+        "ொ",
+        "ॊ",
+        "ோ",
+        "ो",
+        "ௌ",
+        "ौ",
+        "்",
+        "्",
+
+        "ஃ",
+        "क", // special Tamil semiconsonent charecter called ' āytam ' .
+
+        "க",
+        "क",
+        "ங",
+        "ङ",
+        "ச",
+        "च",
+        "ஞ",
+        "ञ",
+        "ட",
+        "ट",
+        "ண",
+        "ण",
+        "த",
+        "त",
+        "ந",
+        "न",
+        "ப",
+        "प",
+        "ம",
+        "म",
+        "ய",
+        "य",
+        "ர",
+        "र",
+        "ல",
+        "ल",
+        "வ",
+        "व",
+        "ழ",
+        "ऴ",
+        "ள",
+        "ळ",
+        "ற",
+        "ऱ",
+        "ன",
+        "ऩ",
+
+        //Grantha Lipi consonants adopted in tamil
+        "ஶ",
+        "श",
+        "ஜ",
+        "ज",
+        "ஷ",
+        "ष",
+        "ஸ",
+        "स",
+        "ஹ",
+        "ह",
+        "க்ஷ",
+        "क्ष",
+
+        //'\u0BF3' , '0' ,
+        "௦",
+        "0",
+        "௧",
+        "1",
+        "௨",
+        "2",
+        "௩",
+        "3",
+        "௪",
+        "4",
+        "௫",
+        "5",
+        "௬",
+        "6",
+        "௭",
+        "7",
+        "௮",
+        "8",
+        "௯",
+        "9",
+        "௰",
+        "10",
+        "௱",
+        "100",
+        "௲",
+        "1000",
+      ];
+
+      //=======================================================================
+      // Sinhala Script
+
+      Lipi[8] = [
+        "\u0D9A",
+        "क",
+        "\u0D9B",
+        "ख",
+        "\u0D9C",
+        "ग",
+        "\u0D9D",
+        "घ",
+
+        "ඞ",
+        "ङ",
+
+        "ච",
+        "च",
+        "ඡ",
+        "छ",
+        "ජ",
+        "ज",
+        "ඣ",
+        "झ",
+        "ඤ",
+        "ञ",
+
+        "ට",
+        "ट",
+        "ඨ",
+        "ठ",
+        "ඩ",
+        "ड",
+        "ඪ",
+        "ढ",
+        "ණ",
+        "ण",
+
+        "ත",
+        "त",
+        "ථ",
+        "थ",
+        "ද",
+        "द",
+        "ධ",
+        "ध",
+        "න",
+        "न",
+
+        "ප",
+        "प",
+        "ඵ",
+        "फ",
+        "බ",
+        "ब",
+        "භ",
+        "भ",
+        "ම",
+        "म",
+
+        "\u0DBA",
+        "य",
+        "\u0DBB",
+        "र",
+        "\u0DBD",
+        "ल",
+        "\u0DC0",
+        "व",
+        "\u0DC1",
+        "श",
+        "\u0DC2",
+        "ष",
+        "\u0DC3",
+        "स",
+        "\u0DC4",
+        "ह",
+        "ළ",
+        "ळ",
+        "\u0DBB",
+        "फ़",
+        "ඥ",
+        "ज्ञ",
+
+        "්",
+        "्",
+        "ා",
+        "ा",
+        "ි",
+        "ि",
+        "ී",
+        "ी",
+        "ු",
+        "ु",
+        "ූ",
+        "ू",
+        "ෘ",
+        "ृ",
+        "ෲ",
+        "ॄ",
+        "ෙ",
+        "ॆ",
+        "ේ",
+        "े",
+        "ෛ",
+        "ै",
+        "ො",
+        "ॊ",
+        "ෝ",
+        "ो",
+        "ෞ",
+        "ौ",
+        "ං",
+        "ं",
+        "ඃ",
+        "ः",
+
+        "අ",
+        "अ",
+        "ආ",
+        "आ",
+        "ඉ",
+        "इ",
+        "ඊ",
+        "ई",
+        "උ",
+        "उ",
+        "ඌ",
+        "ऊ",
+        "ඍ",
+        "ऋ",
+        "ඏ",
+        "ऌ",
+        "එ",
+        "ऎ",
+        "ඒ",
+        "ए",
+        "ඓ",
+        "ऐ",
+        "ඔ",
+        "ऒ",
+        "ඕ",
+        "ओ",
+        "ඖ",
+        "औ",
+
+        "ඟ",
+        "ङ्ग",
+        "ඬ",
+        "ण्ड",
+        "ඳ",
+        "न्द",
+        "ඹ",
+        "म्ब",
+
+        "ඇ",
+        "ऍ",
+        "ැ",
+        "ॅ",
+        "ඈ",
+        "ऐ",
+        "ෑ",
+        "ै",
+
+        "\u0DD0",
+        "१",
+        "\u0DD1",
+        "२",
+        "\u0DD2",
+        "३",
+        "\u0DD3",
+        "४",
+        "\u0DD4",
+        "५",
+        "\u0DD5",
+        "६",
+        "\u0DD6",
+        "७",
+        "\u0DD7",
+        "८",
+        "\u0DD8",
+        "९",
+      ];
+
+      //========================================================================
+      // Tibetan Script
+
+      Lipi[9] = [
+        "\u0F00",
+        "ॐ",
+        "\u0F0D",
+        "।",
+        "\u0F0E",
+        "॥",
+        "\u0F14",
+        "\,",
+
+        "ཨ",
+        "अ",
+        "ཨཱ",
+        "आ",
+        "ཨི",
+        "इ",
+        "ཨཱི",
+        "ई",
+        "ཨུ",
+        "उ",
+        "ཨཱུ",
+        "ऊ",
+        "ཨེ",
+        "ए",
+        "ཨཻ",
+        "ऐ",
+        "ཨོ",
+        "ओ",
+        "ཨཽ",
+        "औ",
+        "རྀ",
+        "ऋ",
+        "རཱྀ",
+        "ॠ",
+        "ལྀ",
+        "ऌ",
+        "ལཱྀ",
+        "ॡ",
+        "ཨཾ",
+        "अं",
+        "ཨྃ",
+        "अँ",
+        "ཨཿ",
+        "अः",
+
+        // halanta  or viraam ,
+        "\u0F84",
+        "्",
+        "ཱ",
+        "ा",
+        "ི",
+        "ि",
+        "ཱི",
+        "ी",
+        "ུ",
+        "ु",
+        "ཱུ",
+        "ू",
+        "ེ",
+        "े",
+        "ཻ",
+        "ै",
+        "ོ",
+        "ो",
+        "ཽ",
+        "ौ",
+        "ྲྀ",
+        "ृ",
+        "ཷ",
+        "ॠ",
+        "ླྀ",
+        "ऌ",
+        "ཹ",
+        "ॡ",
+        "ཾ",
+        "ं",
+        "ྃ",
+        "ँ",
+        "ཿ",
+        "ः",
+
+        "ཀ",
+        "क",
+        "ཁ",
+        "ख",
+        "ག",
+        "ग",
+        "\u0F43",
+        "घ",
+        "གྷ",
+        "घ", //ga+ha
+        "ང",
+        "ङ",
+
+        "ཙ",
+        "च", // 0F59
+        "ཚ",
+        "छ", // 0F5A
+        "ཛ",
+        "ज", // 0F5B
+        "ཛྷ",
+        "झ", //ja+ha
+        "\u0F5C",
+        "झ",
+
+        "\u0F45",
+        "च",
+        "\u0F46",
+        "छ",
+        "\u0F47",
+        "ज",
+        "\u0F47" + "\u0FB7",
+        "झ",
+        "ཉ",
+        "ञ",
+
+        "ཊ",
+        "ट",
+        "ཋ",
+        "ठ",
+        "ཌ",
+        "ड",
+        "ཌྷ",
+        "ढ",
+        "\u0F4D",
+        "ढ",
+        "ཎ",
+        "ण",
+        "ཏ",
+        "त",
+        "ཐ",
+        "थ",
+        "ད",
+        "द",
+        "དྷ",
+        "ध",
+        "\u0F52",
+        "ध",
+        "ན",
+        "न",
+
+        "པ",
+        "प",
+        "ཕ",
+        "फ",
+        "བ",
+        "ब",
+        "\u0F57",
+        "भ",
+        "མ",
+        "म",
+
+        "ཡ",
+        "य",
+        "ར",
+        "र",
+        "ལ",
+        "ल",
+        "ཝ",
+        "व",
+        "ཤ",
+        "श",
+        "ཥ",
+        "ष",
+        "ས",
+        "स",
+        "ཧ",
+        "ह",
+        "ཀྵ",
+        "क्ष",
+
+        //TIBETAN LETTER -A or 'a transliterted as v ; confirm this. ,
+        "\u0F60",
+        "व",
+        "\u0F5E",
+        "झ",
+        "\u0F5F",
+        "ज",
+
+        //Tibetan Subjoined charecters follow here- ,
+        "\u0F90",
+        "्क",
+        "\u0F91",
+        "्ख",
+        "\u0F92",
+        "्ग",
+        "\u0F93",
+        "्घ",
+        "\u0F94",
+        "्ङ",
+
+        "\u0F95",
+        "्च",
+        "\u0F96",
+        "्छ",
+        "\u0F97",
+        "्ज",
+        "\u0F99",
+        "्ञ",
+
+        "\u0F9A",
+        "्ट",
+        "\u0F9B",
+        "्ठ",
+        "\u0F9C",
+        "्ड",
+        "\u0F9D",
+        "्ढ",
+        "\u0F9E",
+        "्ण",
+        "\u0F9F",
+        "्त",
+        "\u0FA0",
+        "्थ",
+        "\u0FA1",
+        "्द",
+        "\u0FA2",
+        "्ध",
+        "\u0FA3",
+        "्न",
+
+        "\u0FA4",
+        "्प",
+        "\u0FA5",
+        "्फ",
+        "\u0FA6",
+        "्ब",
+        "\u0FA7",
+        "्भ",
+        "\u0FA8",
+        "म",
+
+        "\u0FA9",
+        "्च",
+        "\u0FAA",
+        "्छ",
+        "\u0FAB",
+        "्ज",
+        "\u0FAC",
+        "्झ",
+
+        "\u0FAD",
+        "्व",
+        "\u0FAE",
+        "्झ",
+        "\u0FAF",
+        "्ज",
+
+        "\u0FB1",
+        "्य",
+        "\u0FB2",
+        "्र",
+        "\u0FB3",
+        "्ल",
+
+        "\u0FB4",
+        "्श",
+        "\u0FB5",
+        "्ष",
+        "\u0FB6",
+        "्स",
+        "\u0FB7",
+        "्ह",
+
+        "\u0F20",
+        "०",
+        "\u0F21",
+        "१",
+        "\u0F22",
+        "२",
+        "\u0F23",
+        "३",
+        "\u0F24",
+        "४",
+        "\u0F25",
+        "५",
+        "\u0F26",
+        "६",
+        "\u0F27",
+        "७",
+        "\u0F28",
+        "८",
+        "\u0F29",
+        "९",
+
+        //Tibetan digit minus half
+        "\u0F2A",
+        "0.5",
+        "\u0F2B",
+        "1.5",
+        "\u0F2C",
+        "2.5",
+        "\u0F2D",
+        "3.5",
+        "\u0F2E",
+        "4.5",
+        "\u0F2F",
+        "5.5",
+        "\u0F30",
+        "6.5",
+        "\u0F31",
+        "7.5",
+        "\u0F32",
+        "8.5",
+        "\u0F33",
+        "-0.5",
+      ];
+
+      //================================
+
+      // Thai Script
+
+      Lipi[10] = [
+        // Independent swar are not used in Thai except for 'อ'='अ' which is used only at initial letter of a syllable.
+
+        "ฯ",
+        "।",
+        //'อะ' , 'अ' ,
+        "อา",
+        "आ",
+        "อิ",
+        "इ",
+        "อี",
+        "ई",
+        "อุ",
+        "उ",
+        "อู",
+        "ऊ",
+        "อเ",
+        "ए",
+        "อโ",
+        "ओ",
+        " อ",
+        " अ", //04-02-16
+
+        "ฺ",
+        "्", //used to make 'half' letters in Sanskrit. Thai does not have the concept of conjunct consonants.
+        "ะ",
+        "", // used to supress inherent o of the consonent
+
+        // following will NOT work in reverse mode-->?? find out if these lines are needed and are correct?
+        "ेะ",
+        "े", // ล อ น ด อ น
+        "ेย",
+        "य", //u in "burn" + y in "boy"
+        "ेอะ",
+        "", // e in 'the'
+        "ेอ",
+        "", // u in burn
+        "ेิ",
+        "", // e in 'the'
+        "ेว",
+        "ेव",
+        "ेาะ",
+        "ॉ", // o in not
+        "ेา",
+        "ाउ", // ow in cow
+        "ेียะ",
+        "ीअ", // ea in ear with glottal stop
+        "ेียว",
+        "ायो", // io in "trio"
+        "ेีย",
+        "ीअ", // ea in ear
+        "ेือะ",
+        "्योर", // ure in "pure"
+        "ेือ",
+        "्योर", // ure in "pure"  นั้
+
+        "แะ",
+        "ै", //a in "at"
+        "แ็",
+        "ै", //a in "at"  ;  note that แ–็  the other maatraa is invisible in 'แ็'
+        "แ",
+        "ै", //a in "at"
+        "แว",
+        "ैवो", //a in "ham" + ow in "low"
+
+        // following will NOT work in reverse mode
+        "ोะ",
+        "ो",
+
+        "รรม",
+        "म्", //ro han with mo ma as closing consonant;ɑm am um ; um in "hum"; same as -ำ
+        "รร ",
+        "न् ", // ro han;an un; un in tun; same as -ัน
+        "รร",
+        "", // ro han ;a u u in "nut"; same as -ั-
+
+        "าว",
+        "ाउ", // sara a with wo waen as closing consonant; ow in "now"
+        "ำ",
+        "ं", // sara am ; am, um ; um in "sum"
+        "า",
+        "ा", //sara a ; a ah, ar, aa ;a in "father"
+
+        "ัวะ",
+        "ीव", // sara ua ; ewe in "sewer"
+        "ัว",
+        "ीव", //sara ua ; ewe in "newer"
+        "วย",
+        "ॉय", //sara ua with yo yak as closing consonant; uoy in "buoy"
+        //'ว' , 'ीव' , //sara ua ; ewe in "newer"
+
+        "อย",
+        "ॉय", //sara o with yo yak as closing consonant; oy in "boy"
+        "อ",
+        "ा", // sara o;  aw in "saw"
+
+        "ัย",
+        "ाय", // sara a with yo yak as closing consonant; i in "hi"
+        "ั",
+        "", // sara a in mai han-akat form;a a u ;u in "nut"
+
+        "ะ",
+        "", // sara a ; aʔ a u ; u in "nut"
+
+        "ึ",
+        "ु", // sara ue ; ue eu, u, uh; u in French "du" (short)
+        "ื",
+        "ू", //sara ue ; ue eu, u ; u in French "dur" (long)
+
+        "ํ",
+        "ं",
+        "า",
+        "ा",
+        "ิว",
+        "िउ", // sara i with wo waen as closing consonant; ew in "new"
+
+        "ิ",
+        "ि",
+        "ี",
+        "ी", //
+        "ุ",
+        "ु", //
+        "ู",
+        "ू", //
+        "เ",
+        "े",
+        "โ",
+        "ो",
+        "ไ",
+        "ाइ", //  like i in "I"
+        "ใ",
+        "ै",
+
+        "ฤๅ",
+        "ॄ",
+        "ฤ",
+        "ृ",
+        "ฦๅ",
+        "ॣ",
+        "ฦ",
+        "ॢ",
+
+        //-------
+        "ก",
+        "क",
+        "ข",
+        "ख",
+        "ฃ",
+        "ख",
+        "ค",
+        "ग",
+        "ฅ",
+        "ख",
+        "ฆ",
+        "घ",
+        "ง",
+        "ङ",
+        "ช",
+        "ज", // ja? // changed to ja 4-2-16
+        "ฉ",
+        "छ",
+        "จ",
+        "ज", //ch?
+        "ซ",
+        "स",
+        "ฌ",
+        "ज",
+        "ญ",
+        "ञ",
+        "ฎ",
+        "ट", // ?ड  // changed to Ta 4-2-16
+        "ฏ",
+        "ट",
+        "ฐ",
+        "ठ",
+        "ฑ",
+        "ड",
+        "ฒ",
+        "ढ",
+        "ณ",
+        "ण",
+        "ด",
+        "द", //?ड
+        "ต",
+        "त",
+        "ถ",
+        "थ",
+        "ท",
+        "द", // 'द' , changed to da 4-2-16
+        "ธ",
+        "ध",
+        "น",
+        "न",
+        "บ",
+        "ब",
+        "ป",
+        "प",
+        "ผ",
+        "फ",
+        "ฝ",
+        "फ",
+        "พ",
+        "ब",
+        "ฟ",
+        "फ",
+        "ภ",
+        "भ",
+        "ม",
+        "म",
+        "ย",
+        "य",
+        "ร",
+        "र",
+        "ล",
+        "ल",
+        "ว",
+        "व",
+        "ศ",
+        "श",
+        "ษ",
+        "ष",
+        "ส",
+        "स",
+        "ห",
+        "ह", //ः at the end?
+        "ฬ",
+        "ल",
+        "ฮ",
+        "ह",
+
+        //--------
+
+        "๐",
+        "०",
+        "๑",
+        "१",
+        "๒",
+        "२",
+        "๓",
+        "३",
+        "๔",
+        "४",
+        "๕",
+        "५",
+        "๖",
+        "६",
+        "๗",
+        "७",
+        "๘",
+        "८",
+        "๙",
+        "९",
+      ];
+
+      //============================================================
+
+      // Burmese Script
+
+      Lipi[11] = [
+        "က",
+        "क",
+        "ခ",
+        "ख",
+        "ဂ",
+        "ग",
+        "ဃ",
+        "घ",
+        "\u1004" + "\u103A" + "\u1039",
+        "ङ्", // nga + asat + viraam = kinzi
+        "င",
+        "ङ",
+
+        "စ",
+        "च",
+        "ဆ",
+        "छ",
+        "ဇ",
+        "ज",
+        "ဈ",
+        "झ",
+        "ဉ",
+        "ञ",
+        "ည",
+        "ञ्ञ", //NNYA
+
+        "ဋ",
+        "ट",
+        "ဌ",
+        "ठ",
+        "ဍ",
+        "ड",
+        "ဎ",
+        "ढ",
+        "ဏ",
+        "ण",
+
+        "တ",
+        "त",
+        "ထ",
+        "थ",
+        "ဒ",
+        "द",
+        "ဓ",
+        "ध",
+        "န",
+        "न",
+
+        "ပ",
+        "प",
+        "ဖ",
+        "फ",
+        "ဗွ",
+        "व",
+        "ဗ",
+        "ब",
+        "ဘ",
+        "भ",
+        "မ",
+        "म",
+
+        "ယ",
+        "य",
+        "ရ",
+        "र",
+        "လ",
+        "ल",
+        "ဝ",
+        "व",
+        "သ",
+        "स",
+        "ဟ",
+        "ह",
+        "ဠ",
+        "ळ",
+
+        // following are extensions for Sanskrit/Pali
+        "\u1050",
+        "ष",
+        "\u1051",
+        "श",
+        "\u1052",
+        "ऋ",
+        "\u1053",
+        "ॠ", //RR
+        "\u1054",
+        "ऌ",
+        "\u1055",
+        "ॡ", // deergh
+        "\u1056",
+        "ृ",
+        "\u1057",
+        "ॄ", // vowel sign RR
+        "\u1058",
+        "ॢ", // harswa LRi vovel sign
+        "\u1059",
+        "ॣ", // deergh LRRII vovel sign
+
+        // dependent consonants
+
+        "\u103B",
+        "्य",
+        "\u103C",
+        "्र",
+        "\u103D",
+        "्व",
+        "\u103E",
+        "्ह",
+
+        "\u103F",
+        "स्स", // Great SA
+
+        // composite independent vovels
+        "\u1021" + "ိ",
+        "इ",
+        "\u1021" + "ီ",
+        "ई",
+        "\u1021" + "ု",
+        "उ",
+        "\u1021" + "ူ",
+        "ऊ",
+        "\u1021" + "ေ" + "ာ" + "်",
+        "औ", // a + e + aa + asat
+        "\u1021" + "ေ" + "ာ",
+        "ओ",
+        //'\u1021' + 'ေ' + '့' , 'ए' ,
+        "\u1021" + "ေ",
+        "ए",
+
+        "\u1021" + "\u102C",
+        "आ",
+        "\u1022" + "\u102B",
+        "आ", // Shan A + tall aa
+
+        "\u1021",
+        "अ",
+        "\u1022",
+        "अ", // SHAN A
+        "ආ",
+        "आ",
+        "ဣ",
+        "इ",
+        "ဤ",
+        "ई",
+        "\u1025" + "\u102E",
+        "ऊ",
+        "ဥ",
+        "उ",
+        "ဦ",
+        "ऊ",
+        "ဧ",
+        "ए",
+        "\u1028",
+        "ए", // MON E
+        //'ဨ' , 'ऐ' ,
+        "\u1029",
+        "ओ",
+        "\u102A",
+        "औ",
+
+        "ေ" + "ါ" + "်",
+        "ौ", // e + tall aa + asat
+        "\u1031" + "\u102C" + "\u103A",
+        "ौ", // e + aa + asat
+        "\u102D" + "\u102F",
+        "ो", // composite 'o' maatraa = vowel sign i + vowel sign u
+        "\u1031" + "\u102C",
+        "ो", // composite 'o' maatraa = e + aa
+        "\u1031" + "\u102B",
+        "ो", // e + tall aa
+
+        "\u102B",
+        "ा", // Vovel sign 'tall aa'
+        "ာ",
+        "ा", // \u102C
+        "ိ",
+        "ि",
+        "ီ",
+        "ी",
+        "ု",
+        "ु",
+        "ူ",
+        "ू",
+
+        "ေ",
+        "े", // e kii maatraa left waalii
+        "\u1035",
+        "े", // e kii matraa upar waalii
+        "ဲ",
+        "ै",
+        "\u1034",
+        "ो", // MON 'o'
+        // 'ො' , 'ो' ,    // is this correct?
+
+        "ံ",
+        "ं", // \u1036 anunaasika or chandrabindu // changed ँ  to ं on basis of comparision of Tripitaka in Devanagari and Burmese.
+        "့",
+        "ं", // \u1037 anuswara atonal mark (=aukmyit)
+        "း",
+        "ः", // \u1038 visarga
+
+        "\u1033",
+        "ी", // MON ii
+        "\u1034",
+        "ो", // MON o
+
+        // '်္' , '्' ,  // asata+viraama (ie kanzi)
+        "္",
+        "्", // \u1039 viraam
+        "်",
+        "्", // \u103A asat
+
+        "\u104A",
+        "।", // little section
+        "\u104B",
+        "।", // section  // changed ॥ to । on the basis of comparision of tripital in Devanagari and Burmese.
+
+        "\u1040",
+        "०",
+        "\u1041",
+        "१",
+        "\u1042",
+        "२",
+        "\u1043",
+        "३",
+        "\u1044",
+        "४",
+        "\u1045",
+        "५",
+        "\u1046",
+        "६",
+        "\u1047",
+        "७",
+        "\u1048",
+        "८",
+        "\u1049",
+        "९",
+      ];
+
+      //===============================================
+
+      var modified_substring = data;
+
+      //04-2-2016 : These 3 lines for Thai Script (to shift 5 matraas to right side.)
+      modified_substring = modified_substring.replace(
+        /([เแโใไ])([^\s\n])/g,
+        "$2$1"
+      );
+      modified_substring = modified_substring.replace(
+        /([เแโใไ])([ฺ][^\s\n])/g,
+        "$2$1"
+      );
+
+      //****************************************************
+      //  Break the long text into small bunches of chunk_size  characters each.
+      //****************************************************
+      var text_size = modified_substring.length;
+
+      var processed_text = ""; //blank
+
+      var sthiti1 = 0;
+      var sthiti2 = 0;
+      var chale_chalo = 1;
+
+      var chunk_size = 6000; // this charecter long text will be processed in one go.
+
+      while (chale_chalo == 1) {
+        sthiti1 = sthiti2;
+
+        if (sthiti2 < text_size - chunk_size) {
+          sthiti2 += chunk_size;
+        } else {
+          sthiti2 = text_size;
+          chale_chalo = 0;
+        }
+
+        var modified_substring = data.substring(sthiti1, sthiti2);
+
+        Replace_Symbols();
+
+        var processed_text = processed_text + modified_substring;
+      }
+
+      var transliterated_scripts = "";
+      for (l_n = 0; l_n < all_scripts - 1; l_n++) {
+        transliterated_scripts =
+          transliterated_scripts + Lipi_name[l_n] + "\, ";
+      }
+      transliterated_scripts =
+        transliterated_scripts + Lipi_name[all_scripts - 1] + " \.";
+
+      var output_script_number = 0;
+
+      if (output_script_number == 0) return processed_text;
+      else {
+        convert_to_selected_script();
+        return processed_text;
+      }
+
+      // ------------------------------------
+
+      function Replace_Symbols() {
+        //substitute array_two elements in place of corresponding array_one elements
+
+        if (modified_substring != "") {
+          // if stringto be converted is non-blank then no need of any processing.
+          for (
+            l_n = 0;
+            l_n < all_scripts;
+            l_n++ // take each Script one by one
+          ) {
+            for (
+              input_symbol_idx = 0;
+              input_symbol_idx < Lipi[l_n].length;
+              input_symbol_idx = input_symbol_idx + 2 // Take each symbol of the script one by one
+            ) {
+              idx = modified_substring.indexOf(Lipi[l_n][input_symbol_idx]);
+
+              while (idx != -1) {
+                //whie-00
+                modified_substring = modified_substring.replace(
+                  Lipi[l_n][input_symbol_idx],
+                  Lipi[l_n][input_symbol_idx + 1]
+                );
+
+                n_char[l_n]++;
+
+                idx = modified_substring.indexOf(Lipi[l_n][input_symbol_idx]);
+              } // end of while-00 loop
+            } // end of inner for_loop
+
+            if (n_char[l_n] > n_char_max) {
+              n_char_max = n_char[l_n];
+              max_char_lipi_sankhya = l_n;
+            }
+          } // end of outer for_loop
+        } // end of IF  statement  meant to  supress processing of  blank  string.
+      } // end of the function  Replace_Symbols
+
+      function convert_to_selected_script() {
+        var modified_substring = processed_text;
+
+        //********************************************************************************
+        //  Break the long text into small bunches of max. max_text_size  characters each.
+        //********************************************************************************
+
+        var text_converted_into_devanagari = processed_text;
+        var text_size = text_converted_into_devanagari.length;
+
+        processed_text = ""; //blank
+
+        var sthiti1 = 0;
+        var sthiti2 = 0;
+        var chale_chalo = 1;
+
+        var max_text_size = 6000;
+
+        while (chale_chalo == 1) {
+          sthiti1 = sthiti2;
+
+          if (sthiti2 < text_size - max_text_size) {
+            sthiti2 += max_text_size;
+            while (text_converted_into_devanagari.charAt(sthiti2) != " ") {
+              sthiti2--;
+            }
+          } else {
+            sthiti2 = text_size;
+            chale_chalo = 0;
+          }
+
+          modified_substring = text_converted_into_devanagari.substring(
+            sthiti1,
+            sthiti2
+          );
+
+          Replace_Symbols();
+
+          processed_text = processed_text + modified_substring;
+
+          //  Breaking part code over
+        }
+
+        // ----------------------------------------------------
+
+        function Replace_Symbols() {
+          // for script conversion
+
+          var array_one_length = Lipi[output_script_number - 1].length;
+
+          if (modified_substring != "") {
+            // if string to be converted is non-blank then no need of any processing.
+            for (
+              input_symbol_idx = 1;
+              input_symbol_idx < array_one_length;
+              input_symbol_idx = input_symbol_idx + 2
+            )
+              if (Lipi[output_script_number - 1][input_symbol_idx] != "") {
+                {
+                  indx = 0; // index of the symbol being searched for replacement
+
+                  while (indx != -1) {
+                    //whie-00
+                    modified_substring = modified_substring.replace(
+                      Lipi[output_script_number - 1][input_symbol_idx],
+                      Lipi[output_script_number - 1][input_symbol_idx - 1]
+                    );
+                    indx = modified_substring.indexOf(
+                      Lipi[output_script_number - 1][input_symbol_idx]
+                    );
+                  } // end of while-00 loop
+                } // if loop
+              } // end of for loop
+          }
+        } // End of function Replace_Symbols( )
+      } // end of convert_to_selected_script ()
+    };
+
+    const gujUnicodeToSulekh = (data) => {
+      let array_one = new Array(
+        //"ર્ીં" , "`" ,
+        //"ર્ી" , "a" ,
+        //"િં" , "g" ,
+
+        "ૐ",
+        "A",
+        "ઈં",
+        "š",
+        "ઇં",
+        "™",
+        "ઉં",
+        "ø",
+        "ઊં",
+        "ù",
+
+        "અ",
+        "á",
+        "આ",
+        "áâ",
+        "ઇ",
+        "å",
+        "ઈ",
+        "æ",
+        "ઉ",
+        "é",
+        "ઊ",
+        "ê",
+        "ઋ",
+        "°",
+        "ઝ્ર",
+        "Â",
+        "ઌ",
+        "", //lri_still to comp
+        "એ",
+        "áë",
+        "ઐ",
+        "áì",
+        "ઓ",
+        "áí",
+        "ઔ",
+        "áî",
+        "ઍ",
+        "á&",
+        "ઑ",
+        "áâ&",
+        "ર્ં",
+        "õ",
+        "ઠ્ઠ",
+        "Q",
+        "\u2018",
+        "\u0022",
+        "\u2019",
+        "\u0027",
+        ";",
+        "ñ",
+        "\u0abd",
+        "\u003b",
+
+        "સ્ત્ર્",
+        "sÝz",
+        "સ્ત્ર",
+        "sÝ",
+
+        //  "શ્ર્ન", "—",
+        "શ્ર્",
+        "W",
+        "ક્ષ",
+        "Ü",
+        "ક્ષ્",
+        "x",
+        "ત્ર્",
+        "X",
+        "જ્ઞ્",
+        "Þz",
+
+        "ત્ર",
+        "Ý",
+        "જ્ઞ",
+        "Þ",
+        "હ્લ",
+        "¤",
+
+        //-----------
+
+        //"્રુ" , "%" ,
+        //"્રૂ" , "&" ,
+
+        "ટ્રુ",
+        "Ã÷ç",
+        "ટ્રૂ",
+        "Ã÷è",
+        "ટ્ર",
+        "Ã÷",
+        "ડ્રુ",
+        "Å÷ç",
+        "ડ્રૂ",
+        "Å÷è",
+        "ડ્ર",
+        "Å÷",
+        "જ્રુ",
+        "`ç",
+        "જ્રૂ",
+        "`è",
+        "જ્રા",
+        "`â",
+        "જ્ર",
+        "`",
+
+        "સ્ર્",
+        "Öýz",
+        "સ્ર",
+        "Öý",
+        "પ્ર",
+        "Íý",
+
+        "દ્ર",
+        "¨",
+        "શ્ર્વ",
+        "œ",
+        "શ્ર",
+        "Ù",
+        "ક્ર",
+        "®",
+        "ફ્ર",
+        "<",
+        "હ્ર",
+        "¡",
+        "જ્જ",
+        "~",
+        //  "શ્ર્ચ", "@",
+
+        // "વ્ર" , "äþ",
+
+        "્ર",
+        "ý",
+
+        //"ર્" , "`" ,
+
+        "ક્ન",
+        "kÌ",
+        "ટ્ટ",
+        "q",
+        "ટ્ઠ",
+        "V",
+        "ડ્ડ",
+        "f",
+        "ડ્ડ",
+        "f",
+        "ત્ન",
+        "tÌ",
+
+        "ઢ્ઢ",
+        "F",
+        "",
+        "¤",
+        "ડ્ઢ",
+        "²",
+
+        //"ડ્ઢ" , "" ,
+
+        //"હ્ન", "ÚzÌ",
+        "હ્ય્",
+        "[z",
+        "હ્ય",
+        "[",
+
+        //"હ્ય" , "ë" ,
+        "શ્ન",
+        "SÌ",
+        "શ્ર્ન",
+        "—",
+        "ઙ્ક",
+        "az»",
+        "ઙ્ખ",
+        "az¼",
+        "ઙ્ગ",
+        "az½",
+        "ઙ્ઘ",
+        "az¾",
+        "હ્ણ",
+        "ÚzÇ",
+        "હ્મ",
+        "¢",
+        "હ્ન",
+        "{",
+        "હ્વ",
+        "H",
+        "દ્રુ",
+        "d",
+        "દ્ઘ",
+        "Êz¾",
+        "દ્બ",
+        "©",
+        "દ્ભ",
+        "ÊzÐ",
+        "દ્મ",
+        "M",
+        "દ્વ",
+        "]",
+
+        "દ્ગ",
+        "Êz½",
+        "દ્ધ",
+        "}",
+        "ન્ન્",
+        "ƒz",
+        "ન્ન",
+        "ƒ",
+        "પ્ત",
+        "pÈ",
+        "પ્ન",
+        "Í‚",
+        "જી",
+        "‘",
+
+        //---------
+
+        "જા",
+        "’", // jaa
+
+        "ત્ત્",
+        "^", // tta
+        "ત્ત",
+        "^â", // tta
+
+        "ષ્ટ",
+        "wÃ",
+        "ષ્ઠ",
+        "wÄ",
+        "ષ્ટ",
+        "ØzÃ",
+        "ષ્ઠ",
+        "ØzÄ",
+        "શ્ચ",
+        "@",
+        "શ્વ",
+        "œ",
+        "સ્ન્",
+        "sn",
+        "સ્ન",
+        "sÌ",
+        "દ્દ",
+        "§",
+        "હૃ",
+        "_",
+        "ક્ક",
+        ">",
+        "દ્ય",
+        "Y",
+
+        //"્ય" , "u" , // done as regex afterwards
+
+        "ક્",
+        "k",
+        "ખ્",
+        "K",
+        "ગ્",
+        "g",
+        "ઘ્",
+        "G",
+        "ઝ઼",
+        "Â",
+        "ચ્",
+        "c",
+        "જ્",
+        "j",
+
+        "ણ્",
+        "N",
+        "ત્",
+        "t",
+        "થ્",
+        "T",
+        "ધ્",
+        "D",
+
+        //"ન્" , "#" ,
+        "ન્",
+        "n",
+        "પ્",
+        "p",
+        "ફ્",
+        "Îz",
+        "બ્",
+        "b",
+        "ભ્",
+        "B",
+        "મ્",
+        "m",
+        "ય્",
+        "y",
+        "લ્",
+        "l",
+        "વ્",
+        "v",
+        "શ્",
+        "S",
+
+        //"શ્" , "f" ,
+        "સ્",
+        "s",
+        "ષ્",
+        "w",
+        "હ્",
+        "h",
+        "ળ્",
+        "L",
+        //"શ્ર્ન", "—",
+
+        "ણુ",
+        "Çç",
+        "ણૂ",
+        "Çè",
+        "ફુ",
+        "Îç",
+        "ફૂ",
+        "Îè",
+        "રુ",
+        "r",
+        "રૂ",
+        "#",
+        "રૂ",
+        "R",
+        "દૃ",
+        "¦",
+
+        "ફ઼",
+        "Î",
+        "ક",
+        "»",
+        "ખ",
+        "¼",
+        "ગ",
+        "½",
+        "ઘ",
+        "¾",
+        "ઙ",
+        "a",
+        "ચ",
+        "¿",
+        "છ",
+        "À",
+        "જ",
+        "Á",
+        "ઝ્",
+        "J",
+        "ઝ",
+        "Â",
+        "ઞ",
+        ":â",
+
+        "ટ",
+        "Ã",
+        "ઠ",
+        "Ä",
+        "ડ",
+        "Å",
+        "ઢ",
+        "Æ",
+        "ણ",
+        "Ç",
+        "ત",
+        "È",
+        "થ",
+        "É",
+        "દ",
+        "Ê",
+        "ધ",
+        "Ë",
+        "ન",
+        "Ì",
+
+        "પ",
+        "Í",
+        "ફ",
+        "Î",
+        "બ",
+        "Ï",
+        "ભ",
+        "Ð",
+        "મ",
+        "Ñ",
+
+        "ય",
+        "Ò",
+
+        // "ર્ " , "ó" , // reph
+        "।",
+        "ó",
+        "ર",
+        "Ó",
+        "લ",
+        "Ô",
+        "વ",
+        "Õ",
+        "શ",
+        "×",
+        "ષ",
+        "Ø",
+        "સ",
+        "Ö",
+        "હ",
+        "Ú",
+        "ળ",
+        "Û",
+
+        "઼",
+        "",
+        "ૈં",
+        "E",
+        "ેં",
+        "e",
+        "ૅં",
+        "e",
+
+        "ા",
+        "â",
+        "ૅ",
+        "ë",
+        "ૉ",
+        "í",
+
+        // "િ", "ã",
+        "ીં",
+        "I",
+        "ી",
+        "ä",
+        "ુ",
+        "ç",
+        "ૂ",
+        "è",
+
+        //"ુ" , "\" ,
+        //"ૂ" , "^" ,
+        "ૃ",
+        "ö",
+        "ે",
+        "ë",
+        "ૈ",
+        "ì",
+        "ો",
+        "í",
+        "ૌ",
+        "î",
+        "?",
+        "¬",
+        //"ઁ" , "\'" ,
+        "ઁ",
+        "û",
+        "ોં",
+        "o",
+        //"ં" , "o" ,
+        "ં",
+        "ï",
+        "ઃ",
+        "ð",
+
+        "્",
+        "z",
+        "ëm",
+        "“m",
+        //'\u003a', 'ð',
+        // ",", ",",
+        // "", "",
+        "\u0078",
+        "\u003f",
+        "।",
+        "d",
+        //"‘", "‘",
+        //"’", "’",
+        "ૠ",
+        "±",
+        "\u00f7",
+        "\u00ab",
+        "\u003a",
+        "\u00f0",
+        "૦",
+        "0",
+        "૧",
+        "1",
+        "૨",
+        "2",
+        "૩",
+        "3",
+        "૪",
+        "4",
+        "૫",
+        "5",
+        "૬",
+        "6",
+        "૭",
+        "7",
+        "૮",
+        "8",
+        "૯",
+        "9"
+      );
+
+      let array_one_length = array_one.length;
+
+      //***************************************************
+      //  Break the long text into small bunches of max. max_text_size  characters each.
+      //***************************************************
+      let text_size = data.length;
+
+      let processed_text = ""; //blank
+
+      let sthiti1 = 0;
+      let sthiti2 = 0;
+      let chale_chalo = 1;
+
+      // let max_text_size = chunksize;
+
+      let max_text_size = 6000;
+
+      // alert(max_text_size);
+
+      while (chale_chalo === 1) {
+        sthiti1 = sthiti2;
+
+        if (sthiti2 < text_size - max_text_size) {
+          sthiti2 += max_text_size;
+          while (data.charAt(sthiti2) !== " ") {
+            sthiti2--;
+          }
+        } else {
+          sthiti2 = text_size;
+          chale_chalo = 0;
+        }
+
+        let modified_substring = data.substring(sthiti1, sthiti2);
+
+        processed_text += Replace_Symbols(modified_substring);
+
+        //**************************************
+        //  Breaking part code over
+        //**************************************
+
+        return processed_text;
+      }
+
+      //**************************************************
+
+      function Replace_Symbols(value) {
+        // if string to be converted is non-blank then no need of any processing.
+        if (value !== "") {
+          // These two to avoid conversion of ર્ into ó.
+          //value = value.replace(/રં્િ/g, "ર્િં");
+          value = value.replace(/;/g, "ñ");
+          value = value.replace(/ત્ર્/g, "X");
+          value = value.replace(/ક્ષ્/g, "x");
+
+          value = value.replace(/શ્ર્ન/g, "—");
+          value = value.replace(/શ્ર્/g, "W");
+          value = value.replace(/ર્/g, "ô");
+
+          //value = value.replace(/ર્િં/g, "ôi");
+          // value = value.replace(/ઞ્/g, ":");
+
+          value = value.replace(/X/g, "ત્ર્");
+          value = value.replace(/x/g, "ક્ષ્");
+
+          // following statements for adjusting postion of i maatraas.
+
+          value = value.replace(/િં/g, "i");
+          value = value.replace(/િ/g, "ã");
+          //value = value.replace(/ર્ં/g, "ü");
+
+          // Eliminating "ર્" and putting  reph (ó)  at proper position for this.
+
+          //value = value.replace(/ü/g, "ü");
+
+          value = value.replace(
+            /ô([કખગઘઙચછજઝઞટઠડઢણતથદધનપફબભમયરલવશષસહળ])([્])/g,
+            "$1$2ô"
+          );
+
+          value = value.replace(
+            /ô([કખગઘઙચછજઝઞટઠડઢણતથદધનપફબભમયરલવશષસહળ])([્])/g,
+            "$1$2ô"
+          );
+
+          value = value.replace(
+            /ô([કખગઘઙચછજઝઞટઠડઢણતથદધનપફબભમયરલવશષસહળ])([ાીુૂૃેૈોૌંઁૅૉ઼]*)/g,
+            "$1$2ô"
+          );
+
+          //value = value.replace(/ãôં/g,"ãõ");
+          value = value.replace(/ીô/g, "þ");
+
+          value = value.replace(/ંô/g, "õ");
+
+          value = value.replace(/ôã/g, "ãô");
+          value = value.replace(/ôi/g, "ãõ");
+
+          // ã = long  િ  --> following code to be corrected accordingly
+
+          value = value.replace(
+            /([કખગઘઙચછજઝઞટઠડઢણતથદધનપફબભમયરલવશષસહળ])([iã])/g,
+            "$2$1"
+          );
+
+          value = value.replace(
+            /([કખગઘઙચછજઝઞટઠડઢણતથદધનપફબભમયરલવશષસહળ])(્)([*iã])/g,
+            "$3$1$2"
+          );
+
+          value = value.replace(
+            /([કખગઘઙચછજઝઞટઠડઢણતથદધનપફબભમયરલવશષસહળ])(્)([iã])/g,
+            "$3$1$2"
+          );
+
+          // Halanta after which there is no constant but space, hypen, comma or full-stop etc
+          value = value.replace(/[્]([ \,\;\.।\n\-\:])/g, "z$1");
+
+          // value = value.replace(/([કછટઢફ])્ય/g, "$1¥");
+
+          //substitute roman charecters in place of corresponding Gujarati Unicode Characters
+
+          for (
+            let input_symbol_idx = 0;
+            input_symbol_idx < array_one_length - 1;
+            input_symbol_idx = input_symbol_idx + 2
+          ) {
+            let idx = 0; // index of the symbol being searched for replacement
+
+            while (idx !== -1) {
+              //whie-00
+              value = value.replace(
+                array_one[input_symbol_idx],
+                array_one[input_symbol_idx + 1]
+              );
+              idx = value.indexOf(array_one[input_symbol_idx]);
+            } // end of while-00 loop
+          } // end of for loop
+        } // end of IF  statement  meant to  supress processing of  blank  string.
+        return value;
+      } // end of the function  Replace_Symbols( )
+    };
+
+    const hindiUnicodeToGujUnicode = (data) => {
+      var all_scripts = 12; // number of total scripts dealt in this program
+
+      var Lipi_name = [
+        "ગુજરાતી",
+        "बांग्ला",
+        "ओडिया",
+        "गुरुमुखी",
+        "कन्नड",
+        "तेलुगु",
+        "मलयालम",
+        "तमिल",
+        "सिंहल",
+        "तिब्बती",
+        "थाई",
+        "बर्मी",
+      ];
+
+      var Lipi = new Array(all_scripts); // stores the conversion pairs of various scripts
+
+      // to store the number of charecters of each script found in the source text.
+      var n_char = new Array(all_scripts + 1);
+      for (l_n = 0; l_n < all_scripts + 1; l_n++) {
+        n_char[l_n] = 0;
+      }
+
+      var max_char_lipi_sankhya = 0;
+      var n_char_max = 0; // max number of char found for any one script
+      var l_n = 0; // counter to count scripts
+
+      //== Lipi Conversion data =================
+
+      // Bangla Script
+
+      Lipi[3] = [
+        "য়",
+        "य", // two byte
+        "ব়",
+        "र", // two byte
+        "ড়",
+        "ड़", //two byte
+        "ঢ়",
+        "ढ़", //two byte
+
+        "ক",
+        "क",
+        "খ",
+        "ख",
+        "গ",
+        "ग",
+        "ঘ",
+        "घ",
+        "ঙ",
+        "ङ",
+        "চ",
+        "च",
+        "ছ",
+        "छ",
+        "জ",
+        "ज",
+        "ঝ",
+        "झ",
+        "ঞ",
+        "ञ",
+        "ট",
+        "ट",
+        "ঠ",
+        "ठ",
+        "ড",
+        "ड",
+        "ড়",
+        "ड़",
+        "ঢ",
+        "ढ",
+        "ণ",
+        "ण",
+        "ত",
+        "त",
+        "ৎ",
+        "त्",
+        "থ",
+        "थ",
+        "দ",
+        "द",
+        "ধ",
+        "ध",
+        "ন",
+        "न",
+        "প",
+        "प",
+        "ফ",
+        "फ",
+        "ব",
+        "ब",
+        "ভ",
+        "भ",
+        "ম",
+        "म",
+        "য",
+        "य",
+        "য়",
+        "य",
+        "র",
+        "र",
+        "ল",
+        "ल",
+        "শ",
+        "श",
+        "ষ",
+        "ष",
+        "স",
+        "स",
+        "হ",
+        "ह",
+        "ক্ষ",
+        "क्ष",
+        "জ্ঞ",
+        "ज्ञ",
+        "৻",
+        "।",
+
+        "ো",
+        "ो", //This case is seen sometimes on BBC Bangla text. Though it is not as per Unicode norm.
+        "ৌ",
+        "ौ",
+
+        "্",
+        "्",
+        "া",
+        "ा",
+        "ি",
+        "ि",
+        "ী",
+        "ी",
+        "ু",
+        "ु",
+        "ূ",
+        "ू",
+        "ৃ",
+        "ृ",
+        "ে",
+        "े",
+        "ৈ",
+        "ै",
+        "ো",
+        "ो",
+        "ৌ",
+        "ौ",
+        "ং",
+        "ं",
+        "ঁ",
+        "ँ",
+        "ঃ",
+        "ः",
+
+        "অ",
+        "अ",
+        "আ",
+        "आ",
+        "ই",
+        "इ",
+        "ঈ",
+        "ई",
+        "উ",
+        "उ",
+        "ঊ",
+        "ऊ",
+        "ঋ",
+        "ऋ",
+        "এ",
+        "ए",
+        "ঐ",
+        "ऐ",
+        "ও",
+        "ओ",
+        "ঔ",
+        "औ",
+
+        "০",
+        "०",
+        "১",
+        "१",
+        "২",
+        "२",
+        "৩",
+        "३",
+        "৪",
+        "४",
+        "৫",
+        "५",
+        "৬",
+        "६",
+        "৭",
+        "७",
+        "৮",
+        "८",
+        "৯",
+        "९",
+      ];
+
+      // ===============================================================
+      // Odiya Script
+
+      Lipi[1] = [
+        "ଡ଼",
+        "ड़",
+        "ଢ଼",
+        "ढ़",
+        "ୟ",
+        "य़",
+
+        "କ",
+        "क",
+        "ଖ",
+        "ख",
+        "ଗ",
+        "ग",
+        "ଘ",
+        "घ",
+        "ଙ",
+        "ङ",
+        "ଚ",
+        "च",
+        "ଛ",
+        "छ",
+        "ଜ",
+        "ज",
+        "ଝ",
+        "झ",
+        "ଞ",
+        "ञ",
+
+        "ଟ",
+        "ट",
+        "ଠ",
+        "ठ",
+        "ଡ",
+        "ड",
+        "ଢ",
+        "ढ",
+        "ଣ",
+        "ण",
+        "ତ",
+        "त",
+        "ଥ",
+        "थ",
+        "ଦ",
+        "द",
+        "ଧ",
+        "ध",
+        "ନ",
+        "न",
+
+        "ପ",
+        "प",
+        "ଫ",
+        "फ",
+        "ବ",
+        "ब",
+        "ଭ",
+        "भ",
+        "ମ",
+        "म",
+        "ଯ",
+        "य",
+        "ର",
+        "र",
+        "ଲ",
+        "ल",
+        "ଳ",
+        "ळ",
+        "ୱ",
+        "व",
+        "ଶ",
+        "श",
+        "ଷ",
+        "ष",
+        "ସ",
+        "स",
+        "ହ",
+        "ह",
+
+        //--------------
+
+        "ଁ",
+        "ँ",
+        "ଂ",
+        "ं",
+        "ଃ",
+        "ः",
+        "଼",
+        "़",
+        "ଽ",
+        "ऽ",
+        "୍",
+        "्",
+
+        "ଅ",
+        "अ",
+        "ଆ",
+        "आ",
+        "ା",
+        "ा",
+        "ଇ",
+        "इ",
+        "ି",
+        "ि",
+        "ଈ",
+        "ई",
+        "ୀ",
+        "ी",
+        "ଉ",
+        "उ",
+        "ୁ",
+        "ु",
+        "ଊ",
+        "ऊ",
+        "ୂ",
+        "ू",
+
+        "ଏ",
+        "ए",
+        "େ",
+        "े",
+        "ଐ",
+        "ऐ",
+        "ୈ",
+        "ै",
+
+        "ଓ",
+        "ओ",
+        "ୋ",
+        "ो",
+        "ଔ",
+        "औ",
+        "ୌ",
+        "ौ",
+        "ଋ",
+        "ऋ",
+        "ୃ",
+        "ृ",
+        "ୠ",
+        "ॠ",
+        "ଌ",
+        "ऌ",
+        "ୡ",
+        "ॡ",
+
+        "୦",
+        "०",
+        "୧",
+        "१",
+        "୨",
+        "२",
+        "୩",
+        "३",
+        "୪",
+        "४",
+        "୫",
+        "५",
+        "୬",
+        "६",
+        "୭",
+        "७",
+        "୮",
+        "८",
+        "୯",
+        "९",
+      ];
+
+      //=======================================================================
+      // Punjabi Script
+
+      Lipi[2] = [
+        "ਕ",
+        "क",
+        "ਖ",
+        "ख",
+        "ਗ",
+        "ग",
+        "ਘ",
+        "घ",
+        "ਙ",
+        "ङ",
+        "ਚ",
+        "च",
+        "ਛ",
+        "छ",
+        "ਜ",
+        "ज",
+        "ਝ",
+        "झ",
+        "ਞ",
+        "ञ",
+        "ਟ",
+        "ट",
+        "ਠ",
+        "ठ",
+        "ਡ",
+        "ड",
+        "ਢ",
+        "ढ",
+        "ਣ",
+        "ण",
+        "ਤ",
+        "त",
+        "ਥ",
+        "थ",
+        "ਦ",
+        "द",
+        "ਧ",
+        "ध",
+        "ਨ",
+        "न",
+        "ਪ",
+        "प",
+        "ਫ",
+        "फ",
+        "ਬ",
+        "ब",
+        "ਭ",
+        "भ",
+        "ਮ",
+        "म",
+        "ਯ",
+        "य",
+        "ਰ",
+        "र",
+        "ਲ",
+        "ल",
+        "ਵ",
+        "व",
+        "ਸ਼",
+        "श",
+        "ਸ਼",
+        "श",
+        "ਸ",
+        "स",
+        "ਹ",
+        "ह",
+
+        "ਖ਼",
+        "ख़",
+        "ਖ਼",
+        "ख़",
+        "ਗ਼",
+        "ग़",
+        "ਗ਼",
+        "ग़",
+        "ਜ਼",
+        "ज़",
+        "ਜ਼",
+        "ज़",
+        "ਫ਼",
+        "फ़",
+        "ਫ਼",
+        "फ़",
+        "ਲ਼",
+        "ल़",
+        "ਲ਼",
+        "ल़",
+
+        "ੜ",
+        "ड़",
+        "਼",
+        "़",
+
+        "੍",
+        "्",
+        "ਾ",
+        "ा",
+        "ਿ",
+        "ि",
+        "ੀ",
+        "ी",
+        "ੁ",
+        "ु",
+        "ੂ",
+        "ू",
+        "ੇ",
+        "े",
+        "ੈ",
+        "ै",
+        "ੋ",
+        "ो",
+        "ੌ",
+        "ौ",
+        "ਂ",
+        "ं",
+        "ੰ",
+        "ं",
+
+        "ਅ",
+        "अ",
+        "ਆ",
+        "आ",
+        "ਇ",
+        "इ",
+        "ਈ",
+        "ई",
+        "ਉ",
+        "उ",
+        "ਊ",
+        "ऊ",
+        "ਏ",
+        "ए",
+        "ਐ",
+        "ऐ",
+        "ਓ",
+        "ओ",
+        "ਔ",
+        "औ",
+
+        "੦",
+        "०",
+        "੧",
+        "१",
+        "੨",
+        "२",
+        "੩",
+        "३",
+        "੪",
+        "४",
+        "੫",
+        "५",
+        "੬",
+        "६",
+        "੭",
+        "७",
+        "੮",
+        "८",
+        "੯",
+        "९",
+      ];
+
+      //=================================================================================
+      // Gujarati Script
+
+      Lipi[0] = [
+        "ક",
+        "क",
+        "ખ",
+        "ख",
+        "ગ",
+        "ग",
+        "ઘ",
+        "घ",
+        "ઙ",
+        "ङ",
+        "ચ",
+        "च",
+        "છ",
+        "छ",
+        "જ",
+        "ज",
+        "ઝ",
+        "झ",
+        "ઞ",
+        "ञ",
+        "ટ",
+        "ट",
+        "ઠ",
+        "ठ",
+        "ડ",
+        "ड",
+        "ઢ",
+        "ढ",
+        "ણ",
+        "ण",
+        "ત",
+        "त",
+        "થ",
+        "थ",
+        "દ",
+        "द",
+        "ધ",
+        "ध",
+        "ન",
+        "न",
+        "પ",
+        "प",
+        "ફ",
+        "फ",
+        "બ",
+        "ब",
+        "ભ",
+        "भ",
+        "મ",
+        "म",
+        "ય",
+        "य",
+        "ર",
+        "र",
+        "લ",
+        "ल",
+        "વ",
+        "व",
+        "શ",
+        "श",
+        "ષ",
+        "ष",
+        "સ",
+        "स",
+        "હ",
+        "ह",
+        "ળ",
+        "ळ",
+        "ક્ષ",
+        "क्ष",
+        "જ્ઞ",
+        "ज्ञ",
+
+        "્",
+        "्",
+        "ા",
+        "ा",
+        "િ",
+        "ि",
+        "ી",
+        "ी",
+        "ુ",
+        "ु",
+        "ૂ",
+        "ू",
+        "ૃ",
+        "ृ",
+        "ે",
+        "े",
+        "ૈ",
+        "ै",
+        "ો",
+        "ो",
+        "ૌ",
+        "ौ",
+        "ૅ",
+        "ॉ",
+        "ૉ",
+        "ॉ",
+        "ં",
+        "ं",
+        "ઃ",
+        "ः",
+        "ઁ",
+        "ँ",
+        "ઽ",
+        "ऽ",
+
+        "અ",
+        "अ",
+        "આ",
+        "आ",
+        "ઇ",
+        "इ",
+        "ઈ",
+        "ई",
+        "ઉ",
+        "उ",
+        "ઊ",
+        "ऊ",
+        "ઋ",
+        "ऋ",
+        "એ",
+        "ए",
+        "ઐ",
+        "ऐ",
+        "ઓ",
+        "ओ",
+        "ઔ",
+        "औ",
+        "ઍ",
+        "ऍ",
+        "ઑ",
+        "ऑ",
+
+        "૦",
+        "०",
+        "૧",
+        "१",
+        "૨",
+        "२",
+        "૩",
+        "३",
+        "૪",
+        "४",
+        "૫",
+        "५",
+        "૬",
+        "६",
+        "૭",
+        "७",
+        "૮",
+        "८",
+        "૯",
+        "९",
+      ];
+
+      //=======================================================================
+      // Kannada Script
+
+      Lipi[4] = [
+        "ಅ",
+        "अ",
+        "ಆ",
+        "आ",
+        "ಇ",
+        "इ",
+        "ಈ",
+        "ई",
+        "ಉ",
+        "उ",
+        "ಊ",
+        "ऊ",
+        "ಋ",
+        "ऋ",
+        "ೠ",
+        "ॠ",
+        "ಌ",
+        "ऌ",
+        "ೡ",
+        "ॡ",
+        "\u0C8E",
+        "ऎ",
+        "ಏ",
+        "ए",
+        "ಐ",
+        "ऐ",
+        "\u0C92",
+        "ऒ",
+        "ಓ",
+        "ओ",
+        "ಔ",
+        "औ",
+
+        "ಕ",
+        "क",
+        "ಖ",
+        "ख",
+        "ಗ",
+        "ग",
+        "ಘ",
+        "घ",
+        "ಙ",
+        "ङ",
+        "ಚ",
+        "च",
+        "ಛ",
+        "छ",
+        "ಜ",
+        "ज",
+        "ಝ",
+        "झ",
+        "ಞ",
+        "ञ",
+        "ಟ",
+        "ट",
+        "ಠ",
+        "ठ",
+        "ಡ",
+        "ड",
+        "ಢ",
+        "ढ",
+        "ಣ",
+        "ण",
+        "ತ",
+        "त",
+        "ಥ",
+        "थ",
+        "ದ",
+        "द",
+        "ಧ",
+        "ध",
+        "ನ",
+        "न",
+        "ಪ",
+        "प",
+        "ಫ",
+        "फ",
+        "ಬ",
+        "ब",
+        "ಭ",
+        "भ",
+        "ಮ",
+        "म",
+
+        "ಯ",
+        "य",
+        "ರ",
+        "र",
+        "ಲ",
+        "ल",
+        "ವ",
+        "व",
+        "ಶ",
+        "श",
+        "ಷ",
+        "ष",
+        "ಸ",
+        "स",
+        "ಹ",
+        "ह",
+        "ಳ",
+        "ळ",
+
+        "फ़",
+        "ಫ",
+        "ಱ",
+        "ऱ",
+
+        "\u0C82",
+        "ं",
+        "\u0C83",
+        "ः",
+
+        "\u0CBD",
+        "ऽ", //awagraha
+        "\u0CBE",
+        "ा",
+        "\u0CBF",
+        "ि",
+        "\u0CC0",
+        "ी",
+        "\u0CC1",
+        "ु",
+        "\u0CC2",
+        "ू",
+        "\u0CC3",
+        "ृ",
+        "\u0CC4",
+        "ृ",
+
+        "\u0CC6",
+        "ॆ",
+        "\u0CC7",
+        "े",
+        "\u0CC8",
+        "ै",
+
+        "\u0CCA",
+        "ॊ",
+        "\u0CCB",
+        "ो",
+        "\u0CCC",
+        "ौ",
+        "\u0CCD",
+        "्",
+
+        "\u0CDE",
+        "\u095E", // फ़
+
+        "\u0CE2",
+        "ॢ", //lri
+        "\u0CE3",
+        "ॣ", //lrii
+
+        "ಓಂ",
+        "ॐ",
+
+        "೦",
+        "०",
+        "೧",
+        "१",
+        "೨",
+        "२",
+        "೩",
+        "३",
+        "೪",
+        "४",
+        "೫",
+        "५",
+        "೬",
+        "६",
+        "೭",
+        "७",
+        "೮",
+        "८",
+        "೯",
+        "९",
+      ];
+
+      //=======================================================================
+      // Telugu Script
+
+      Lipi[5] = [
+        "అ",
+        "अ",
+        "ఆ",
+        "आ",
+        "ఇ",
+        "इ",
+        "ఈ",
+        "ई",
+        "ఉ",
+        "उ",
+        "ఊ",
+        "ऊ",
+        "ఋ",
+        "ऋ",
+        "ౠ",
+        "ॠ",
+        "ఌ",
+        "ऌ",
+        "ౡ",
+        "ॡ",
+        "\u0C0E",
+        "ऎ",
+        "ఏ",
+        "ए",
+        "ఐ",
+        "ऐ",
+        "\u0C12",
+        "ऒ",
+        "ఓ",
+        "ओ",
+        "ఔ",
+        "औ",
+
+        "క",
+        "क",
+        "ఖ",
+        "ख",
+        "గ",
+        "ग",
+        "ఘ",
+        "घ",
+        "ఙ",
+        "ङ",
+        "చ",
+        "च",
+        "ఛ",
+        "छ",
+        "జ",
+        "ज",
+        "ఝ",
+        "झ",
+        "ఞ",
+        "ञ",
+        "ట",
+        "ट",
+        "ఠ",
+        "ठ",
+        "డ",
+        "ड",
+        "ఢ",
+        "ढ",
+        "ణ",
+        "ण",
+        "త",
+        "त",
+        "థ",
+        "थ",
+        "ద",
+        "द",
+        "ధ",
+        "ध",
+        "న",
+        "न",
+        "ప",
+        "प",
+        "ఫ",
+        "फ",
+        "బ",
+        "ब",
+        "భ",
+        "भ",
+        "మ",
+        "म",
+
+        "య",
+        "य",
+        "ర",
+        "र",
+        "ల",
+        "ल",
+        "వ",
+        "व",
+        "శ",
+        "श",
+        "ష",
+        "ष",
+        "స",
+        "स",
+        "హ",
+        "ह",
+        "ళ",
+        "ळ",
+
+        //"క" , "क़" ,
+        //"ఖ" , "ख़" ,
+        "ఱ",
+        "ऱ",
+
+        "్",
+        "्",
+        "ా",
+        "ा",
+        "ి",
+        "ि",
+        "ీ",
+        "ी",
+        "ు",
+        "ु",
+        "ూ",
+        "ू",
+        "ృ",
+        "ृ",
+        "ౄ",
+        "ृ",
+        "\u06C2",
+        "ॢ", //lri
+        "\u06C3",
+        "ॣ", //lrii
+        "ె",
+        "ॆ",
+        "ే",
+        "े",
+        "ై",
+        "ै",
+        "ొ",
+        "ॊ",
+        "ో",
+        "ो",
+        "ౌ",
+        "ौ",
+        "ం",
+        "ं",
+        "ః",
+        "ः",
+        "ఁ",
+        "ँ",
+
+        "ఽ",
+        "ऽ", //awagraha
+
+        "౦",
+        "०",
+        "౧",
+        "१",
+        "౨",
+        "२",
+        "౩",
+        "३",
+        "౪",
+        "४",
+        "౫",
+        "५",
+        "౬",
+        "६",
+        "౭",
+        "७",
+        "౮",
+        "८",
+        "౯",
+        "९",
+      ];
+
+      //========================================================================
+      // Malayalam Script
+
+      Lipi[6] = [
+        // '‍' , '' ,  // NWJ charecter (left ); Not visible here.
+
+        "ക",
+        "क",
+        "ഖ",
+        "ख",
+        "ഗ",
+        "ग",
+        "ഘ",
+        "घ",
+        "ങ",
+        "ङ",
+        "ച",
+        "च",
+        "ഛ",
+        "छ",
+        "ജ",
+        "ज",
+        "ഝ",
+        "झ",
+        "ഞ",
+        "ञ",
+        "ട",
+        "ट",
+        "ഠ",
+        "ठ",
+        "ഡ",
+        "ड",
+        "ഢ",
+        "ढ",
+        "ണ",
+        "ण",
+        "ത",
+        "त",
+        "ഥ",
+        "थ",
+        "ദ",
+        "द",
+        "ധ",
+        "ध",
+        "ന്റെ",
+        "न्टे",
+        "ന",
+        "न",
+        //'ൺ' , 'ऩ' ,  // chillu NN // न्नँ // see below
+        "പ",
+        "प",
+        "ഫ",
+        "फ",
+        "ബ",
+        "ब",
+        "ഭ",
+        "भ",
+        "മ",
+        "म",
+        "യ",
+        "य",
+        "ര",
+        "र",
+        "ററ",
+        "ट्ट",
+        "റ്റ",
+        "ट्ट",
+        "റ",
+        "ऱ",
+        "ല",
+        "ल",
+        "ള",
+        "ळ",
+        "ഴ",
+        "ऴ",
+        "വ",
+        "व",
+        "ശ",
+        "श",
+        "ഷ",
+        "ष",
+        "സ",
+        "स",
+        "ഹ",
+        "ह",
+
+        // The six Chillus or chillaaxaram ; special consonant letters that represents a pure consonant independently, without help of a virama or halant. It is 'soft halant'.
+
+        "ൺ",
+        "ण्", //CHILLU NN ṇa ണ
+        "ൻ",
+        "न्", //  Chillu-n ; but it is NOT exacty 'न्'
+        "ർ",
+        "र्", //CHILLU RR ra ര Historically from ra, not from ṟa (RRA) റ.
+        "ൽ",
+        "ल्", //CHILLU L ; la ല ; Historically from ta ത.
+        "ൾ",
+        "ळ्", //CHILLU LL ḷa ള
+        "ൿ",
+        "क्", //CHILLU K ka ക
+
+        "ം",
+        "ं",
+        "ഃ",
+        "ः",
+
+        "ഽ",
+        "ऽ", //Avagraha called 'Praslesham' in Malayalam
+        "ാ",
+        "ा",
+        "ി",
+        "ि",
+        "ീ",
+        "ी",
+        "ു",
+        "ु",
+        "ൂ",
+        "ू",
+        "ൃ",
+        "ृ",
+        "െ",
+        "ॆ",
+        "േ",
+        "े",
+        "ൈ",
+        "ै",
+        "ൊ",
+        "ॊ",
+        "ോ",
+        "ो",
+        "ൌ",
+        "ौ",
+        "ൗ",
+        "ौ", //Modern form
+
+        "ു്",
+        "्", //half-u + chandrakalaa
+        "്",
+        "्", //Chandrakalaa ; very short vovel if at the end of a word called 'saṁvr̥tōkāram'
+
+        "െ",
+        "\u0946", //short e maatraa
+        "ൊ",
+        "\u094A", //short o maatraa
+
+        "അ",
+        "अ",
+        "ആ",
+        "आ",
+        "ഇ",
+        "इ",
+        "ഈ",
+        "ई",
+        "ഉ",
+        "उ",
+        "ഊ",
+        "ऊ",
+        "ഋ",
+        "ऋ",
+        "ഌ",
+        "ऌ",
+        "എ",
+        "ऎ",
+        "ഏ",
+        "ए",
+        "ഐ",
+        "ऐ",
+        "ഒ",
+        "ऒ",
+        "ഓ",
+        "ओ",
+        "ഔ",
+        "औ",
+
+        "ൠ",
+        "ॠ",
+        "ൡ",
+        "ॡ",
+        "ൢ",
+        "ॢ", // lri
+        "ൣ",
+        "ॣ", //lrii
+
+        "൦",
+        "०",
+        "൧",
+        "१",
+        "൨",
+        "२",
+        "൩",
+        "३",
+        "൪",
+        "४",
+        "൫",
+        "५",
+        "൬",
+        "६",
+        "൭",
+        "७",
+        "൮",
+        "८",
+        "൯",
+        "९",
+      ];
+
+      //======================================================================
+      // Tamil Script
+
+      Lipi[7] = [
+        "அ",
+        "अ",
+        "ஆ",
+        "आ",
+        "இ",
+        "इ",
+        "ஈ",
+        "ई",
+        "உ",
+        "उ",
+        "ஊ",
+        "ऊ",
+        "எ",
+        "ऎ",
+        "ஏ",
+        "ए",
+        "ஐ",
+        "ऐ",
+        "ஒ",
+        "ऒ",
+        "ஓ",
+        "ओ",
+        "ஔ",
+        "औ",
+
+        "ஂ",
+        "ं", // added on 28-9-12 ; check if it is correct
+
+        "ா",
+        "ा",
+        "ி",
+        "ि",
+        "ீ",
+        "ी",
+        "ு",
+        "ु",
+        "ூ",
+        "ू",
+        "ெ",
+        "ॆ",
+        "ே",
+        "े",
+        "ை",
+        "ै",
+        "ொ",
+        "ॊ",
+        "ோ",
+        "ो",
+        "ௌ",
+        "ौ",
+        "்",
+        "्",
+
+        "ஃ",
+        "क", // special Tamil semiconsonent charecter called ' āytam ' .
+
+        "க",
+        "क",
+        "ங",
+        "ङ",
+        "ச",
+        "च",
+        "ஞ",
+        "ञ",
+        "ட",
+        "ट",
+        "ண",
+        "ण",
+        "த",
+        "त",
+        "ந",
+        "न",
+        "ப",
+        "प",
+        "ம",
+        "म",
+        "ய",
+        "य",
+        "ர",
+        "र",
+        "ல",
+        "ल",
+        "வ",
+        "व",
+        "ழ",
+        "ऴ",
+        "ள",
+        "ळ",
+        "ற",
+        "ऱ",
+        "ன",
+        "ऩ",
+
+        //Grantha Lipi consonants adopted in tamil
+        "ஶ",
+        "श",
+        "ஜ",
+        "ज",
+        "ஷ",
+        "ष",
+        "ஸ",
+        "स",
+        "ஹ",
+        "ह",
+        "க்ஷ",
+        "क्ष",
+
+        //'\u0BF3' , '0' ,
+        "௦",
+        "0",
+        "௧",
+        "1",
+        "௨",
+        "2",
+        "௩",
+        "3",
+        "௪",
+        "4",
+        "௫",
+        "5",
+        "௬",
+        "6",
+        "௭",
+        "7",
+        "௮",
+        "8",
+        "௯",
+        "9",
+        "௰",
+        "10",
+        "௱",
+        "100",
+        "௲",
+        "1000",
+      ];
+
+      //=======================================================================
+      // Sinhala Script
+
+      Lipi[8] = [
+        "\u0D9A",
+        "क",
+        "\u0D9B",
+        "ख",
+        "\u0D9C",
+        "ग",
+        "\u0D9D",
+        "घ",
+
+        "ඞ",
+        "ङ",
+
+        "ච",
+        "च",
+        "ඡ",
+        "छ",
+        "ජ",
+        "ज",
+        "ඣ",
+        "झ",
+        "ඤ",
+        "ञ",
+
+        "ට",
+        "ट",
+        "ඨ",
+        "ठ",
+        "ඩ",
+        "ड",
+        "ඪ",
+        "ढ",
+        "ණ",
+        "ण",
+
+        "ත",
+        "त",
+        "ථ",
+        "थ",
+        "ද",
+        "द",
+        "ධ",
+        "ध",
+        "න",
+        "न",
+
+        "ප",
+        "प",
+        "ඵ",
+        "फ",
+        "බ",
+        "ब",
+        "භ",
+        "भ",
+        "ම",
+        "म",
+
+        "\u0DBA",
+        "य",
+        "\u0DBB",
+        "र",
+        "\u0DBD",
+        "ल",
+        "\u0DC0",
+        "व",
+        "\u0DC1",
+        "श",
+        "\u0DC2",
+        "ष",
+        "\u0DC3",
+        "स",
+        "\u0DC4",
+        "ह",
+        "ළ",
+        "ळ",
+        "\u0DBB",
+        "फ़",
+        "ඥ",
+        "ज्ञ",
+
+        "්",
+        "्",
+        "ා",
+        "ा",
+        "ි",
+        "ि",
+        "ී",
+        "ी",
+        "ු",
+        "ु",
+        "ූ",
+        "ू",
+        "ෘ",
+        "ृ",
+        "ෲ",
+        "ॄ",
+        "ෙ",
+        "ॆ",
+        "ේ",
+        "े",
+        "ෛ",
+        "ै",
+        "ො",
+        "ॊ",
+        "ෝ",
+        "ो",
+        "ෞ",
+        "ौ",
+        "ං",
+        "ं",
+        "ඃ",
+        "ः",
+
+        "අ",
+        "अ",
+        "ආ",
+        "आ",
+        "ඉ",
+        "इ",
+        "ඊ",
+        "ई",
+        "උ",
+        "उ",
+        "ඌ",
+        "ऊ",
+        "ඍ",
+        "ऋ",
+        "ඏ",
+        "ऌ",
+        "එ",
+        "ऎ",
+        "ඒ",
+        "ए",
+        "ඓ",
+        "ऐ",
+        "ඔ",
+        "ऒ",
+        "ඕ",
+        "ओ",
+        "ඖ",
+        "औ",
+
+        "ඟ",
+        "ङ्ग",
+        "ඬ",
+        "ण्ड",
+        "ඳ",
+        "न्द",
+        "ඹ",
+        "म्ब",
+
+        "ඇ",
+        "ऍ",
+        "ැ",
+        "ॅ",
+        "ඈ",
+        "ऐ",
+        "ෑ",
+        "ै",
+
+        "\u0DD0",
+        "१",
+        "\u0DD1",
+        "२",
+        "\u0DD2",
+        "३",
+        "\u0DD3",
+        "४",
+        "\u0DD4",
+        "५",
+        "\u0DD5",
+        "६",
+        "\u0DD6",
+        "७",
+        "\u0DD7",
+        "८",
+        "\u0DD8",
+        "९",
+      ];
+
+      //========================================================================
+      // Tibetan Script
+
+      Lipi[9] = [
+        "\u0F00",
+        "ॐ",
+        "\u0F0D",
+        "।",
+        "\u0F0E",
+        "॥",
+        "\u0F14",
+        "\,",
+
+        "ཨ",
+        "अ",
+        "ཨཱ",
+        "आ",
+        "ཨི",
+        "इ",
+        "ཨཱི",
+        "ई",
+        "ཨུ",
+        "उ",
+        "ཨཱུ",
+        "ऊ",
+        "ཨེ",
+        "ए",
+        "ཨཻ",
+        "ऐ",
+        "ཨོ",
+        "ओ",
+        "ཨཽ",
+        "औ",
+        "རྀ",
+        "ऋ",
+        "རཱྀ",
+        "ॠ",
+        "ལྀ",
+        "ऌ",
+        "ལཱྀ",
+        "ॡ",
+        "ཨཾ",
+        "अं",
+        "ཨྃ",
+        "अँ",
+        "ཨཿ",
+        "अः",
+
+        // halanta  or viraam ,
+        "\u0F84",
+        "्",
+        "ཱ",
+        "ा",
+        "ི",
+        "ि",
+        "ཱི",
+        "ी",
+        "ུ",
+        "ु",
+        "ཱུ",
+        "ू",
+        "ེ",
+        "े",
+        "ཻ",
+        "ै",
+        "ོ",
+        "ो",
+        "ཽ",
+        "ौ",
+        "ྲྀ",
+        "ृ",
+        "ཷ",
+        "ॠ",
+        "ླྀ",
+        "ऌ",
+        "ཹ",
+        "ॡ",
+        "ཾ",
+        "ं",
+        "ྃ",
+        "ँ",
+        "ཿ",
+        "ः",
+
+        "ཀ",
+        "क",
+        "ཁ",
+        "ख",
+        "ག",
+        "ग",
+        "\u0F43",
+        "घ",
+        "གྷ",
+        "घ", //ga+ha
+        "ང",
+        "ङ",
+
+        "ཙ",
+        "च", // 0F59
+        "ཚ",
+        "छ", // 0F5A
+        "ཛ",
+        "ज", // 0F5B
+        "ཛྷ",
+        "झ", //ja+ha
+        "\u0F5C",
+        "झ",
+
+        "\u0F45",
+        "च",
+        "\u0F46",
+        "छ",
+        "\u0F47",
+        "ज",
+        "\u0F47" + "\u0FB7",
+        "झ",
+        "ཉ",
+        "ञ",
+
+        "ཊ",
+        "ट",
+        "ཋ",
+        "ठ",
+        "ཌ",
+        "ड",
+        "ཌྷ",
+        "ढ",
+        "\u0F4D",
+        "ढ",
+        "ཎ",
+        "ण",
+        "ཏ",
+        "त",
+        "ཐ",
+        "थ",
+        "ད",
+        "द",
+        "དྷ",
+        "ध",
+        "\u0F52",
+        "ध",
+        "ན",
+        "न",
+
+        "པ",
+        "प",
+        "ཕ",
+        "फ",
+        "བ",
+        "ब",
+        "\u0F57",
+        "भ",
+        "མ",
+        "म",
+
+        "ཡ",
+        "य",
+        "ར",
+        "र",
+        "ལ",
+        "ल",
+        "ཝ",
+        "व",
+        "ཤ",
+        "श",
+        "ཥ",
+        "ष",
+        "ས",
+        "स",
+        "ཧ",
+        "ह",
+        "ཀྵ",
+        "क्ष",
+
+        //TIBETAN LETTER -A or 'a transliterted as v ; confirm this. ,
+        "\u0F60",
+        "व",
+        "\u0F5E",
+        "झ",
+        "\u0F5F",
+        "ज",
+
+        //Tibetan Subjoined charecters follow here- ,
+        "\u0F90",
+        "्क",
+        "\u0F91",
+        "्ख",
+        "\u0F92",
+        "्ग",
+        "\u0F93",
+        "्घ",
+        "\u0F94",
+        "्ङ",
+
+        "\u0F95",
+        "्च",
+        "\u0F96",
+        "्छ",
+        "\u0F97",
+        "्ज",
+        "\u0F99",
+        "्ञ",
+
+        "\u0F9A",
+        "्ट",
+        "\u0F9B",
+        "्ठ",
+        "\u0F9C",
+        "्ड",
+        "\u0F9D",
+        "्ढ",
+        "\u0F9E",
+        "्ण",
+        "\u0F9F",
+        "्त",
+        "\u0FA0",
+        "्थ",
+        "\u0FA1",
+        "्द",
+        "\u0FA2",
+        "्ध",
+        "\u0FA3",
+        "्न",
+
+        "\u0FA4",
+        "्प",
+        "\u0FA5",
+        "्फ",
+        "\u0FA6",
+        "्ब",
+        "\u0FA7",
+        "्भ",
+        "\u0FA8",
+        "म",
+
+        "\u0FA9",
+        "्च",
+        "\u0FAA",
+        "्छ",
+        "\u0FAB",
+        "्ज",
+        "\u0FAC",
+        "्झ",
+
+        "\u0FAD",
+        "्व",
+        "\u0FAE",
+        "्झ",
+        "\u0FAF",
+        "्ज",
+
+        "\u0FB1",
+        "्य",
+        "\u0FB2",
+        "्र",
+        "\u0FB3",
+        "्ल",
+
+        "\u0FB4",
+        "्श",
+        "\u0FB5",
+        "्ष",
+        "\u0FB6",
+        "्स",
+        "\u0FB7",
+        "्ह",
+
+        "\u0F20",
+        "०",
+        "\u0F21",
+        "१",
+        "\u0F22",
+        "२",
+        "\u0F23",
+        "३",
+        "\u0F24",
+        "४",
+        "\u0F25",
+        "५",
+        "\u0F26",
+        "६",
+        "\u0F27",
+        "७",
+        "\u0F28",
+        "८",
+        "\u0F29",
+        "९",
+
+        //Tibetan digit minus half
+        "\u0F2A",
+        "0.5",
+        "\u0F2B",
+        "1.5",
+        "\u0F2C",
+        "2.5",
+        "\u0F2D",
+        "3.5",
+        "\u0F2E",
+        "4.5",
+        "\u0F2F",
+        "5.5",
+        "\u0F30",
+        "6.5",
+        "\u0F31",
+        "7.5",
+        "\u0F32",
+        "8.5",
+        "\u0F33",
+        "-0.5",
+      ];
+
+      //================================
+
+      // Thai Script
+
+      Lipi[10] = [
+        // Independent swar are not used in Thai except for 'อ'='अ' which is used only at initial letter of a syllable.
+
+        "ฯ",
+        "।",
+        //'อะ' , 'अ' ,
+        "อา",
+        "आ",
+        "อิ",
+        "इ",
+        "อี",
+        "ई",
+        "อุ",
+        "उ",
+        "อู",
+        "ऊ",
+        "อเ",
+        "ए",
+        "อโ",
+        "ओ",
+        " อ",
+        " अ", //04-02-16
+
+        "ฺ",
+        "्", //used to make 'half' letters in Sanskrit. Thai does not have the concept of conjunct consonants.
+        "ะ",
+        "", // used to supress inherent o of the consonent
+
+        // following will NOT work in reverse mode-->?? find out if these lines are needed and are correct?
+        "ेะ",
+        "े", // ล อ น ด อ น
+        "ेย",
+        "य", //u in "burn" + y in "boy"
+        "ेอะ",
+        "", // e in 'the'
+        "ेอ",
+        "", // u in burn
+        "ेิ",
+        "", // e in 'the'
+        "ेว",
+        "ेव",
+        "ेาะ",
+        "ॉ", // o in not
+        "ेา",
+        "ाउ", // ow in cow
+        "ेียะ",
+        "ीअ", // ea in ear with glottal stop
+        "ेียว",
+        "ायो", // io in "trio"
+        "ेีย",
+        "ीअ", // ea in ear
+        "ेือะ",
+        "्योर", // ure in "pure"
+        "ेือ",
+        "्योर", // ure in "pure"  นั้
+
+        "แะ",
+        "ै", //a in "at"
+        "แ็",
+        "ै", //a in "at"  ;  note that แ–็  the other maatraa is invisible in 'แ็'
+        "แ",
+        "ै", //a in "at"
+        "แว",
+        "ैवो", //a in "ham" + ow in "low"
+
+        // following will NOT work in reverse mode
+        "ोะ",
+        "ो",
+
+        "รรม",
+        "म्", //ro han with mo ma as closing consonant;ɑm am um ; um in "hum"; same as -ำ
+        "รร ",
+        "न् ", // ro han;an un; un in tun; same as -ัน
+        "รร",
+        "", // ro han ;a u u in "nut"; same as -ั-
+
+        "าว",
+        "ाउ", // sara a with wo waen as closing consonant; ow in "now"
+        "ำ",
+        "ं", // sara am ; am, um ; um in "sum"
+        "า",
+        "ा", //sara a ; a ah, ar, aa ;a in "father"
+
+        "ัวะ",
+        "ीव", // sara ua ; ewe in "sewer"
+        "ัว",
+        "ीव", //sara ua ; ewe in "newer"
+        "วย",
+        "ॉय", //sara ua with yo yak as closing consonant; uoy in "buoy"
+        //'ว' , 'ीव' , //sara ua ; ewe in "newer"
+
+        "อย",
+        "ॉय", //sara o with yo yak as closing consonant; oy in "boy"
+        "อ",
+        "ा", // sara o;  aw in "saw"
+
+        "ัย",
+        "ाय", // sara a with yo yak as closing consonant; i in "hi"
+        "ั",
+        "", // sara a in mai han-akat form;a a u ;u in "nut"
+
+        "ะ",
+        "", // sara a ; aʔ a u ; u in "nut"
+
+        "ึ",
+        "ु", // sara ue ; ue eu, u, uh; u in French "du" (short)
+        "ื",
+        "ू", //sara ue ; ue eu, u ; u in French "dur" (long)
+
+        "ํ",
+        "ं",
+        "า",
+        "ा",
+        "ิว",
+        "िउ", // sara i with wo waen as closing consonant; ew in "new"
+
+        "ิ",
+        "ि",
+        "ี",
+        "ी", //
+        "ุ",
+        "ु", //
+        "ู",
+        "ू", //
+        "เ",
+        "े",
+        "โ",
+        "ो",
+        "ไ",
+        "ाइ", //  like i in "I"
+        "ใ",
+        "ै",
+
+        "ฤๅ",
+        "ॄ",
+        "ฤ",
+        "ृ",
+        "ฦๅ",
+        "ॣ",
+        "ฦ",
+        "ॢ",
+
+        //-------
+        "ก",
+        "क",
+        "ข",
+        "ख",
+        "ฃ",
+        "ख",
+        "ค",
+        "ग",
+        "ฅ",
+        "ख",
+        "ฆ",
+        "घ",
+        "ง",
+        "ङ",
+        "ช",
+        "ज", // ja? // changed to ja 4-2-16
+        "ฉ",
+        "छ",
+        "จ",
+        "ज", //ch?
+        "ซ",
+        "स",
+        "ฌ",
+        "ज",
+        "ญ",
+        "ञ",
+        "ฎ",
+        "ट", // ?ड  // changed to Ta 4-2-16
+        "ฏ",
+        "ट",
+        "ฐ",
+        "ठ",
+        "ฑ",
+        "ड",
+        "ฒ",
+        "ढ",
+        "ณ",
+        "ण",
+        "ด",
+        "द", //?ड
+        "ต",
+        "त",
+        "ถ",
+        "थ",
+        "ท",
+        "द", // 'द' , changed to da 4-2-16
+        "ธ",
+        "ध",
+        "น",
+        "न",
+        "บ",
+        "ब",
+        "ป",
+        "प",
+        "ผ",
+        "फ",
+        "ฝ",
+        "फ",
+        "พ",
+        "ब",
+        "ฟ",
+        "फ",
+        "ภ",
+        "भ",
+        "ม",
+        "म",
+        "ย",
+        "य",
+        "ร",
+        "र",
+        "ล",
+        "ल",
+        "ว",
+        "व",
+        "ศ",
+        "श",
+        "ษ",
+        "ष",
+        "ส",
+        "स",
+        "ห",
+        "ह", //ः at the end?
+        "ฬ",
+        "ल",
+        "ฮ",
+        "ह",
+
+        //--------
+
+        "๐",
+        "०",
+        "๑",
+        "१",
+        "๒",
+        "२",
+        "๓",
+        "३",
+        "๔",
+        "४",
+        "๕",
+        "५",
+        "๖",
+        "६",
+        "๗",
+        "७",
+        "๘",
+        "८",
+        "๙",
+        "९",
+      ];
+
+      //============================================================
+
+      // Burmese Script
+
+      Lipi[11] = [
+        "က",
+        "क",
+        "ခ",
+        "ख",
+        "ဂ",
+        "ग",
+        "ဃ",
+        "घ",
+        "\u1004" + "\u103A" + "\u1039",
+        "ङ्", // nga + asat + viraam = kinzi
+        "င",
+        "ङ",
+
+        "စ",
+        "च",
+        "ဆ",
+        "छ",
+        "ဇ",
+        "ज",
+        "ဈ",
+        "झ",
+        "ဉ",
+        "ञ",
+        "ည",
+        "ञ्ञ", //NNYA
+
+        "ဋ",
+        "ट",
+        "ဌ",
+        "ठ",
+        "ဍ",
+        "ड",
+        "ဎ",
+        "ढ",
+        "ဏ",
+        "ण",
+
+        "တ",
+        "त",
+        "ထ",
+        "थ",
+        "ဒ",
+        "द",
+        "ဓ",
+        "ध",
+        "န",
+        "न",
+
+        "ပ",
+        "प",
+        "ဖ",
+        "फ",
+        "ဗွ",
+        "व",
+        "ဗ",
+        "ब",
+        "ဘ",
+        "भ",
+        "မ",
+        "म",
+
+        "ယ",
+        "य",
+        "ရ",
+        "र",
+        "လ",
+        "ल",
+        "ဝ",
+        "व",
+        "သ",
+        "स",
+        "ဟ",
+        "ह",
+        "ဠ",
+        "ळ",
+
+        // following are extensions for Sanskrit/Pali
+        "\u1050",
+        "ष",
+        "\u1051",
+        "श",
+        "\u1052",
+        "ऋ",
+        "\u1053",
+        "ॠ", //RR
+        "\u1054",
+        "ऌ",
+        "\u1055",
+        "ॡ", // deergh
+        "\u1056",
+        "ृ",
+        "\u1057",
+        "ॄ", // vowel sign RR
+        "\u1058",
+        "ॢ", // harswa LRi vovel sign
+        "\u1059",
+        "ॣ", // deergh LRRII vovel sign
+
+        // dependent consonants
+
+        "\u103B",
+        "्य",
+        "\u103C",
+        "्र",
+        "\u103D",
+        "्व",
+        "\u103E",
+        "्ह",
+
+        "\u103F",
+        "स्स", // Great SA
+
+        // composite independent vovels
+        "\u1021" + "ိ",
+        "इ",
+        "\u1021" + "ီ",
+        "ई",
+        "\u1021" + "ု",
+        "उ",
+        "\u1021" + "ူ",
+        "ऊ",
+        "\u1021" + "ေ" + "ာ" + "်",
+        "औ", // a + e + aa + asat
+        "\u1021" + "ေ" + "ာ",
+        "ओ",
+        //'\u1021' + 'ေ' + '့' , 'ए' ,
+        "\u1021" + "ေ",
+        "ए",
+
+        "\u1021" + "\u102C",
+        "आ",
+        "\u1022" + "\u102B",
+        "आ", // Shan A + tall aa
+
+        "\u1021",
+        "अ",
+        "\u1022",
+        "अ", // SHAN A
+        "ආ",
+        "आ",
+        "ဣ",
+        "इ",
+        "ဤ",
+        "ई",
+        "\u1025" + "\u102E",
+        "ऊ",
+        "ဥ",
+        "उ",
+        "ဦ",
+        "ऊ",
+        "ဧ",
+        "ए",
+        "\u1028",
+        "ए", // MON E
+        //'ဨ' , 'ऐ' ,
+        "\u1029",
+        "ओ",
+        "\u102A",
+        "औ",
+
+        "ေ" + "ါ" + "်",
+        "ौ", // e + tall aa + asat
+        "\u1031" + "\u102C" + "\u103A",
+        "ौ", // e + aa + asat
+        "\u102D" + "\u102F",
+        "ो", // composite 'o' maatraa = vowel sign i + vowel sign u
+        "\u1031" + "\u102C",
+        "ो", // composite 'o' maatraa = e + aa
+        "\u1031" + "\u102B",
+        "ो", // e + tall aa
+
+        "\u102B",
+        "ा", // Vovel sign 'tall aa'
+        "ာ",
+        "ा", // \u102C
+        "ိ",
+        "ि",
+        "ီ",
+        "ी",
+        "ု",
+        "ु",
+        "ူ",
+        "ू",
+
+        "ေ",
+        "े", // e kii maatraa left waalii
+        "\u1035",
+        "े", // e kii matraa upar waalii
+        "ဲ",
+        "ै",
+        "\u1034",
+        "ो", // MON 'o'
+        // 'ො' , 'ो' ,    // is this correct?
+
+        "ံ",
+        "ं", // \u1036 anunaasika or chandrabindu // changed ँ  to ं on basis of comparision of Tripitaka in Devanagari and Burmese.
+        "့",
+        "ं", // \u1037 anuswara atonal mark (=aukmyit)
+        "း",
+        "ः", // \u1038 visarga
+
+        "\u1033",
+        "ी", // MON ii
+        "\u1034",
+        "ो", // MON o
+
+        // '်္' , '्' ,  // asata+viraama (ie kanzi)
+        "္",
+        "्", // \u1039 viraam
+        "်",
+        "्", // \u103A asat
+
+        "\u104A",
+        "।", // little section
+        "\u104B",
+        "।", // section  // changed ॥ to । on the basis of comparision of tripital in Devanagari and Burmese.
+
+        "\u1040",
+        "०",
+        "\u1041",
+        "१",
+        "\u1042",
+        "२",
+        "\u1043",
+        "३",
+        "\u1044",
+        "४",
+        "\u1045",
+        "५",
+        "\u1046",
+        "६",
+        "\u1047",
+        "७",
+        "\u1048",
+        "८",
+        "\u1049",
+        "९",
+      ];
+
+      //===============================================
+
+      var modified_substring = data;
+
+      //04-2-2016 : These 3 lines for Thai Script (to shift 5 matraas to right side.)
+      modified_substring = modified_substring.replace(
+        /([เแโใไ])([^\s\n])/g,
+        "$2$1"
+      );
+      modified_substring = modified_substring.replace(
+        /([เแโใไ])([ฺ][^\s\n])/g,
+        "$2$1"
+      );
+
+      //****************************************************
+      //  Break the long text into small bunches of chunk_size  characters each.
+      //****************************************************
+      var text_size = modified_substring.length;
+
+      var processed_text = ""; //blank
+
+      var sthiti1 = 0;
+      var sthiti2 = 0;
+      var chale_chalo = 1;
+
+      var chunk_size = 6000; // this charecter long text will be processed in one go.
+
+      while (chale_chalo == 1) {
+        sthiti1 = sthiti2;
+
+        if (sthiti2 < text_size - chunk_size) {
+          sthiti2 += chunk_size;
+          //      while (document.getElementById("Indian_script_text").value.charAt ( sthiti2 ) != ' ') {sthiti2--;}
+          //This was making problem if there is no 'space' in the whole document.
+        } else {
+          sthiti2 = text_size;
+          chale_chalo = 0;
+        }
+
+        var modified_substring = data.substring(sthiti1, sthiti2);
+
+        Replace_Symbols();
+
+        var processed_text = processed_text + modified_substring;
+      }
+
+      // document.getElementById("unicode_text").value = processed_text ;
+
+      var transliterated_scripts = "";
+      for (l_n = 0; l_n < all_scripts - 1; l_n++) {
+        transliterated_scripts =
+          transliterated_scripts + Lipi_name[l_n] + "\, ";
+      }
+      transliterated_scripts =
+        transliterated_scripts + Lipi_name[all_scripts - 1] + " \.";
+
+      // var output_script_number = document.getElementById("selected_output_script").selectedIndex ;
+      var output_script_number = 1;
+
+      if (output_script_number == 0) return processed_text;
+      else {
+        convert_to_selected_script();
+        return processed_text;
+      }
+
+      // ------------------------------------
+
+      function Replace_Symbols() {
+        //substitute array_two elements in place of corresponding array_one elements
+
+        if (modified_substring != "") {
+          // if stringto be converted is non-blank then no need of any processing.
+          for (
+            l_n = 0;
+            l_n < all_scripts;
+            l_n++ // take each Script one by one
+          ) {
+            for (
+              input_symbol_idx = 0;
+              input_symbol_idx < Lipi[l_n].length;
+              input_symbol_idx = input_symbol_idx + 2 // Take each symbol of the script one by one
+            ) {
+              idx = modified_substring.indexOf(Lipi[l_n][input_symbol_idx]);
+
+              while (idx != -1) {
+                //whie-00
+                modified_substring = modified_substring.replace(
+                  Lipi[l_n][input_symbol_idx],
+                  Lipi[l_n][input_symbol_idx + 1]
+                );
+
+                n_char[l_n]++;
+
+                idx = modified_substring.indexOf(Lipi[l_n][input_symbol_idx]);
+              } // end of while-00 loop
+            } // end of inner for_loop
+
+            if (n_char[l_n] > n_char_max) {
+              n_char_max = n_char[l_n];
+              max_char_lipi_sankhya = l_n;
+            }
+          } // end of outer for_loop
+        } // end of IF  statement  meant to  supress processing of  blank  string.
+      } // end of the function  Replace_Symbols
+
+      function convert_to_selected_script() {
+        // document.getElementById("Text_Box_two").value = "लिपि परिवर्तन का कार्य आरम्भ हो गया है। कुछ क्षण प्रतीक्षा कीजिये..."  ;
+
+        var modified_substring = processed_text;
+
+        //********************************************************************************
+        //  Break the long text into small bunches of max. max_text_size  characters each.
+        //********************************************************************************
+
+        var text_converted_into_devanagari = processed_text;
+        var text_size = text_converted_into_devanagari.length;
+
+        processed_text = ""; //blank
+
+        var sthiti1 = 0;
+        var sthiti2 = 0;
+        var chale_chalo = 1;
+
+        var max_text_size = 6000;
+
+        while (chale_chalo == 1) {
+          sthiti1 = sthiti2;
+
+          if (sthiti2 < text_size - max_text_size) {
+            sthiti2 += max_text_size;
+            while (text_converted_into_devanagari.charAt(sthiti2) != " ") {
+              sthiti2--;
+            }
+          } else {
+            sthiti2 = text_size;
+            chale_chalo = 0;
+          }
+
+          modified_substring = text_converted_into_devanagari.substring(
+            sthiti1,
+            sthiti2
+          );
+
+          Replace_Symbols();
+
+          processed_text = processed_text + modified_substring;
+
+          //  Breaking part code over
+
+          //	  document.getElementById("Text_Box_two").value = processed_text  ;
+        }
+
+        // ----------------------------------------------------
+
+        function Replace_Symbols() {
+          // for script conversion
+
+          var array_one_length = Lipi[output_script_number - 1].length;
+
+          if (modified_substring != "") {
+            // if string to be converted is non-blank then no need of any processing.
+            for (
+              input_symbol_idx = 1;
+              input_symbol_idx < array_one_length;
+              input_symbol_idx = input_symbol_idx + 2
+            )
+              if (Lipi[output_script_number - 1][input_symbol_idx] != "") {
+                {
+                  indx = 0; // index of the symbol being searched for replacement
+
+                  while (indx != -1) {
+                    //whie-00
+                    modified_substring = modified_substring.replace(
+                      Lipi[output_script_number - 1][input_symbol_idx],
+                      Lipi[output_script_number - 1][input_symbol_idx - 1]
+                    );
+                    indx = modified_substring.indexOf(
+                      Lipi[output_script_number - 1][input_symbol_idx]
+                    );
+                  } // end of while-00 loop
+                } // if loop
+              } // end of for loop
+          }
+        } // End of function Replace_Symbols( )
+      } // end of convert_to_selected_script ()
+    };
+
+    const gujUnicodeButtonPress = async () => {
+      const unicodeText = document.getElementById("unicodeText").value;
+      const convertedeHindi = await gujUnicodeToHindi(unicodeText);
+      document.getElementById("hindiUnicode").value = convertedeHindi;
+      const convertedEnglish = await gujUnicodeToEnglish(unicodeText);
+      document.getElementById("englishText").value = convertedEnglish;
+      const convertedSulekh = await gujUnicodeToSulekh(unicodeText);
+      document.getElementById("sulekhText").value = convertedSulekh;
+    };
+
+    const sulekhTextButtonPress = async () => {
+      const sulekhText = document.getElementById("sulekhText").value;
+      const convertedUnicode = await sulekhToGujUnicodeConverter(sulekhText);
+      document.getElementById("unicodeText").value = convertedUnicode;
+      const convertedEnglish = await gujUnicodeToEnglish(convertedUnicode);
+      document.getElementById("englishText").value = convertedEnglish;
+      const convertedHindi = await gujUnicodeToHindi(convertedUnicode);
+      document.getElementById("hindiUnicode").value = convertedHindi;
+    };
+
+    const hindiUnicodeButtonPress = async () => {
+      const hindiUnicode = document.getElementById("hindiUnicode").value;
+      const convertedUnicode = await hindiUnicodeToGujUnicode(hindiUnicode);
+      document.getElementById("unicodeText").value = convertedUnicode;
+      const convertedEnglish = await gujUnicodeToEnglish(convertedUnicode);
+      document.getElementById("englishText").value = convertedEnglish;
+      const convertedSulekh = await gujUnicodeToSulekh(convertedUnicode);
+      document.getElementById("sulekhText").value = convertedSulekh;
+    };
+  </script>
+</html>
