@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flex Box</title>
+  <style>
+    .container {
+      border: 2px solid rgb(40, 168, 78);
+      border-radius: 0.8cap;
+      width: 950px;
+      height: 900px;
+      display: grid;
+      /* grid-template-columns:repeat(3, 1fr); */
+      /* grid-template-columns: repeat(3, minmax(100px, 1fr)); */
+      grid-template-columns: repeat(3, minmax(100px, 80px));
+      /* justify-content: center; this will make whole grid to align to center */
+      place-content: center;
+      /*this will make whole grid to align to center and justify center */
+      grid-template-rows: [row-1]auto [row-2]auto [second-last]auto [last];
+      gap: 10px;
+
+    }
+
+    .item {
+      height: 55px;
+      width: 55px;
+      background-color: greenyellow;
+      border: 2px solid rgb(113, 147, 2);
+      border-radius: 0.4cap;
+      /* justify-self: center;
+      align-self: center; */
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <div class="container">
+      <div class="item order0">1</div>
+      <div class="item order3">2</div>
+      <div class="item order2">3</div>
+      <div class="item order1">4</div>
+      <div class="item">5</div>
+      <div class="item">6</div>
+  </main>
+</body>
+
+</html>
