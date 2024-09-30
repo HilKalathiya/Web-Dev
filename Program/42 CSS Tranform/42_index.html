@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Transform</title>
+    <style>
+        body {
+            background-color: #14141a;
+
+        }
+
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .box {
+            display: flex;
+            height: 150px;
+            width: 150px;
+            border-radius: 0.8cap;
+            background-color: #4580e7;
+            border: 2px solid #10507d;
+            justify-self: center;
+            margin-top: 30px;
+            transform: rotate(45deg) translate(80px);
+            /* transform: rotate(0.58turn); */
+            /* transform:rotateX(80deg); */
+            /* transform:rotateY(80deg); */
+            /* transform:rotateZ(80deg); */
+
+            /* transform: scale(1.25); */
+            /* transform: skew(11deg); */
+            /* transform: skewY(11deg); */
+            /* transform: translate(50px,20px) skewY(-10deg); */
+
+            transform-origin: -0% -0%;
+            /* it tranform the origins of rotation  */
+            font-weight: 700;
+            font-size: 18px;
+            align-items: center;
+            justify-content: center;
+            /* text-align: center;
+            line-height: 150px; */
+        }
+
+        .container {
+            display: grid;
+            box-sizing: border-box;
+            height: 80vh;
+            width: 100vw;
+            border: 2px solid #bb67d7;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="box">
+            jay Swaminarayn
+        </div>
+    </div>
+</body>
+
+</html>

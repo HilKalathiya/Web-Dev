@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transition</title>
+    <style>
+        .box {
+            display: flex;
+            height: 150px;
+            width: 150px;
+            border-radius: 0.8cap;
+            background-color: #4580e7;
+            border: 2px solid rgb(18, 1, 87);
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .translete:hover {
+            transform: translateY(30px) scale(1.3) translateX(30px);
+            background-color: rgb(217, 225, 139);
+            /* transition-property: transform; we can do for all also */
+            /* transition-property: background-color, transform;
+            transition-duration: 1s;
+            transition-timing-function:bounce;
+            transition-delay: 0.25s; */
+            transition: all 0.3s ease 0.2s;
+        }
+
+        .container {
+            display: grid;
+            box-sizing: border-box;
+            height: 80vh;
+            width: 100vw;
+            border: 2px solid #bb67d7;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="box translete"></div>
+    </div>
+
+</body>
+
+</html>
