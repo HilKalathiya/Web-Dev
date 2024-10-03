@@ -15,25 +15,27 @@
             display: flex;
             width: 80vw;
             height: 70vh;
-            background-color: #abf3a0;
-            border: 2px solid #459538;
+            background-color: #57eadd71;
+            border: 2px solid #388d95;
             align-items: end;
         }
 
         .ball {
+            z-index: 1;
             height: 30px;
             width: 30px;
-            background-color: #ff9e44;
-            border: 2px solid #f4f459;
+            background-color: #57ff449d;
+            border: 1.5px solid #1ebe2b6e;
             border-radius: 70px;
-            animation: Yaxis 3.5s cubic-bezier(0, 0.7, 1, 1.06) 1.5s 7 alternate, Xaxis 20s linear 1.5s
+            animation: Yaxis 1.2s ease-out 1.5s infinite alternate, Xaxis 15s linear 1.5s infinite;
         }
 
         @keyframes Yaxis {
             from {}
 
             to {
-                transform: translateY(-390px);
+                
+                transform: translateY(-550px);
             }
         }
 

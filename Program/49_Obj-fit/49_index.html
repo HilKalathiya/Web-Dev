@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS-fit and Obj-cover</title>
+    <style>
+        body{
+            background-image: url("");
+        }
+        .container {
+            width: 30vw;
+            height: 40vh;
+            border: 2px solid #2b7108;
+            /* background-color: #92e569; */
+            background-image: url("maharaj.png");
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-clip: border-box;    
+
+
+        }
+
+        .container img {
+            /* height: 70px;
+            width: 100px;  */
+            height: 100%;
+            width: 100%;
+            /*this give exact height of parent container*/
+            /* object-fit: contain;  this is placing img in the container with aspect ratio*/
+            object-fit: cover;
+            /*this img is only cover(kapay ne fit thase) in this given width and height*/
+            /* object-position: top right; this is positioning the img in the container */
+            /* object-position: 50% 50%; this is positioning the img in the center of the container */
+            /* object-position: 50% 100%; this is positioning the img in the bottom center of the container */
+            /* object-position: bottom right; this is positioning the img in the bottom right of the container */
+            /* object-position: top left; this is positioning the img in the top left of the container */
+            /* object-position: bottom left; this is positioning the img in the bottom left of the container */
+            /* object-position: 50px 10px; */
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- <img src="maharaj.png" alt="Maharaj"> -->
+    </div>
+</body>
+
+</html>
