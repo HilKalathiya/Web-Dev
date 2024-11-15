@@ -1,0 +1,61 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.bg {
+  height: 122vh;
+}
+.bg .gradiant{
+  height: 100%;
+  background-color: black;
+  position: relative;
+  background-image: linear-gradient(
+    360deg,
+    rgba(0, 0, 0, 0.85) 8%,
+    rgba(0, 0, 0, 0.8465) 15.67%,
+    rgba(0, 0, 0, 0.8361) 23.33%,
+    rgba(0, 0, 0, 0.8187) 31%,
+    rgba(0, 0, 0, 0.7944) 38.67%,
+    rgba(0, 0, 0, 0.7632) 46.33%,
+    rgba(0, 0, 0, 0.725) 54%,
+    rgba(0, 0, 0, 0.6868) 61.67%,
+    rgba(0, 0, 0, 0.6556) 69.33%,
+    rgba(0, 0, 0, 0.6312) 77%,
+    rgba(0, 0, 0, 0.6139) 84.67%,
+    rgba(0, 0, 0, 0.6035) 92.33%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.bg img{
+  height: 122vh;
+  width: 98.9vw;
+  position: absolute;
+  top:0;
+  object-fit: cover;
+  opacity: 38%;
+
+}
+nav{
+  opacity: 100%;
+  background-color: rgb(255, 0, 0);
+}
+
+/* background: linear-gradient(
+  180deg,
+  rgba(0, 0, 0, 0.8) 0%,
+  rgba(0, 0, 0, 0.7889) 8.333%,
+  rgba(0, 0, 0, 0.7556) 16.67%,
+  rgba(0, 0, 0, 0.7) 25%,
+  rgba(0, 0, 0, 0.6222) 33.33%,
+  rgba(0, 0, 0, 0.5222) 41.67%,
+  rgba(0, 0, 0, 0.4) 50%,
+  rgba(0, 0, 0, 0.2778) 58.33%,
+  rgba(0, 0, 0, 0.1778) 66.67%,
+  rgba(0, 0, 0, 0.1) 75%,
+  rgba(0, 0, 0, 0.04444) 83.33%,
+  rgba(0, 0, 0, 0.01111) 91.67%,
+  rgba(0, 0, 0, 0) 100%
+); */
