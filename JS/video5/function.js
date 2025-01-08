@@ -7,7 +7,7 @@ function add(a,b){
 let c =add(10,15);
 console.log(c);
 
-function multi(a,b,c =3){
+function multi(a,b,c = 3){
     console.log(a*b*c);
 }
 
