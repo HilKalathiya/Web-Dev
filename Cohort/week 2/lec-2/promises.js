@@ -65,3 +65,4 @@ function callback() {
     console.log("promise resolved after 5 sec");
 }
 p.then(callback); 
+    
